@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  @apply box-border font-poppins;
+}
+
+#app {
+  @apply min-h-screen bg-[#fff0e1] p-14 px-10;
+}

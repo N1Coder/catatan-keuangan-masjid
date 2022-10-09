@@ -1,20 +1,32 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router"
-import HelloWorld from "./components/HelloWorld.vue"
+// import { RouterLink, RouterView } from "vue-router"
+import { validateUserSession, userSession } from "./utils/useAuth"
+import Loading from "./components/Loading.vue"
+import HomeView from "./views/HomeView.vue"
+import LoginView from "./views/LoginView.vue"
+import { dateToday } from "./utils/useTime"
+
+console.log(dateToday)
 </script>
 
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
+  <div v-if="validateUserSession(userSession)">
+    <LoginView />
+  </div>
 
-    <div class="text-4xl text-rose-600 wrapper">Hello</div>
-  </header>
+  <div v-else>
+    <Suspense>
+      <template #default>
+        <div>
+          <HomeView />
+        </div>
+      </template>
 
-  <RouterView />
+      <template #fallback>
+        <div class="grid place-items-center min-h-screen">
+          <Loading />
+        </div>
+      </template>
+    </Suspense>
+  </div>
 </template>

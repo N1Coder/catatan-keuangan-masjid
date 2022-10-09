@@ -1,0 +1,83 @@
+<script setup>
+import gsap from "gsap"
+import { supabase } from "../global/supabase"
+import { ref, onMounted, reactive } from "vue"
+import { handleLogin } from "../utils/useAuth"
+import router from "../router"
+
+const dataLogin = reactive({
+  email: null,
+  password: null,
+})
+
+// onMounted(() => {
+//   gsap.fromTo(
+//     heading.value,
+//     {
+//       opacity: 0,
+//       y: 80,
+//     },
+//     {
+//       opacity: 1,
+//       y: 0,
+//     }
+//   )
+//   gsap.fromTo(
+//     subHeading.value,
+//     {
+//       opacity: 0,
+//       y: 80,
+//     },
+//     {
+//       opacity: 1,
+//       y: 0,
+//       delay: 0.5,
+//     }
+//   )
+// })
+</script>
+
+<template>
+  <section class="min-h-screen">
+    <form
+      class="bg-white flex flex-col rounded mt-24 p-8 px-6 gap-6 text-slate-800"
+      @submit.prevent="handleLogin(dataLogin)"
+    >
+      <h2 class="text-2xl font-bold">SignIn CaKeMas</h2>
+      <label>
+        <p class="capitalize text-xl tracking-wide font-semibold">email</p>
+
+        <input
+          class="bg-slate-50 rounded w-full py-2 px-3 focus:outline-4 focus:outline-orange-400 focus:bg-slate-100"
+          placeholder="Masukkan email anda"
+          required
+          v-model="dataLogin.email"
+          type="email"
+        />
+      </label>
+
+      <label>
+        <p class="capitalize text-xl tracking-wide font-semibold">kata sandi</p>
+
+        <input
+          class="bg-slate-50 rounded w-full py-2 px-3 focus:outline-4 focus:outline-orange-400 focus:bg-slate-100"
+          placeholder="Masukkan kata sandi anda"
+          required
+          v-model="dataLogin.password"
+          type="password"
+        />
+      </label>
+
+      <label>
+        <input
+          class="bg-slate-800 px-6 py-2 text-white font-medium rounded hover:bg-black active:bg-black"
+          type="submit"
+          value="Masuk"
+        />
+      </label>
+      <p class="capitalize text-xl text-slate-800 tracking-wide font-semibold">
+        {{ dataLogin.password }}
+      </p>
+    </form>
+  </section>
+</template>
