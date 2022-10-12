@@ -1,4 +1,5 @@
 import { supabase } from "../../global/supabase"
+import router from "../../router/router"
 import { userSession } from "./userSession"
 
 /*
@@ -23,6 +24,8 @@ export const handleLogin = async (credentials) => {
     if (!error && !user) {
       alert("Check your email for the login link!")
     }
+
+    router.push({ name: "home" })
   } catch (error) {
     console.error("Error thrown:", error.message)
     alert(error.error_description || error)

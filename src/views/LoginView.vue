@@ -3,7 +3,6 @@ import gsap from "gsap"
 import { supabase } from "../global/supabase"
 import { ref, onMounted, reactive } from "vue"
 import { handleLogin } from "../utils/useAuth"
-import router from "../router"
 
 const dataLogin = reactive({
   email: null,

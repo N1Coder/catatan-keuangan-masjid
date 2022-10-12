@@ -6,4 +6,4 @@ const month = monthsIndonesian[date.getMonth()]
 const day = daysIndonesian[date.getDay()]
 const year = date.getFullYear()
 
-export const dateToday = `Hari ${day}, Bulan ${month}, Tahun ${year}`
+export const dateToday = `${day} ${date.getDate()} ${month} ${year}`

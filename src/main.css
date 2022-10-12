@@ -7,5 +7,13 @@
 }
 
 #app {
-  @apply min-h-screen bg-[#fff0e1] p-14 px-10;
+  @apply min-h-screen bg-[#fff0e1] p-14 pb-24 px-4 sm:px-12 md:px-20;
+}
+
+.shadow-sharp {
+  box-shadow: 0.25em 0.25em 0 rgba(0, 0, 0, 1);
+}
+
+.shadow-sharp-lg {
+  box-shadow: 0.5em 0.5em 0 rgba(0, 0, 0, 1);
 }
