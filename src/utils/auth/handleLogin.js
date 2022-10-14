@@ -25,7 +25,7 @@ export const handleLogin = async (credentials) => {
       alert("Check your email for the login link!")
     }
 
-    router.push({ name: "home" })
+    router.push({ name: "dashboard" })
   } catch (error) {
     console.error("Error thrown:", error.message)
     alert(error.error_description || error)

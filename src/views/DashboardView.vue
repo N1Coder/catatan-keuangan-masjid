@@ -3,7 +3,7 @@ import { dateToday } from "../utils/useTime"
 import { Icon } from "@iconify/vue"
 import { ref, onMounted } from "vue"
 import gsap from "gsap"
-import { currency } from "../utils/currency";
+import { currency } from "../utils/currency"
 
 const anggaran = ref(null),
   pemasukan = ref(null),
@@ -158,8 +158,8 @@ onMounted(() => {
 
     <RouterLink
       ref="tambahTransaksi"
-      class="shadow-sharp transition-all inline-block mt-6 capitalize py-1 px-4 bg-orange-400 border-2 border-slate-900 text-slate-900 font-medium hover:bg-orange-500 hover:shadow-none"
-      to="/tambah-transaksi"
+      class="inline-block mt-6 button-primary"
+      to="/add-transaction"
     >
       tambah transaksi
     </RouterLink>

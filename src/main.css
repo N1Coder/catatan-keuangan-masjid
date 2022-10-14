@@ -17,3 +17,7 @@
 .shadow-sharp-lg {
   box-shadow: 0.5em 0.5em 0 rgba(0, 0, 0, 1);
 }
+
+.button-primary {
+  @apply shadow-sharp transition-all capitalize py-2 px-4 bg-orange-400 border-2 border-slate-900 text-slate-900 font-medium hover:bg-orange-500 hover:shadow-none;
+}

@@ -3,6 +3,7 @@ import { userSession } from "../utils/useAuth"
 import DashboardView from "../views/DashboardView.vue"
 import HistoryView from "../views/HistoryView.vue"
 import AnalyticsView from "../views/AnalyticsView.vue"
+import TransactionView from "../views/TransactionView.vue"
 import ReportView from "../views/ReportView.vue"
 import HomeView from "../views/HomeView.vue"
 import LoginView from "../views/LoginView.vue"
@@ -12,6 +13,7 @@ const routes = [
     path: "/",
     name: "home",
     component: HomeView,
+    redirect: { name: "signin" },
     meta: {
       auth: false,
     },
@@ -44,6 +46,14 @@ const routes = [
     path: "/analytics",
     name: "analytics",
     component: AnalyticsView,
+    meta: {
+      auth: true,
+    },
+  },
+  {
+    path: "/add-transaction",
+    name: "transaction",
+    component: TransactionView,
     meta: {
       auth: true,
     },

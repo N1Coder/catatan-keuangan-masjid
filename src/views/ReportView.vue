@@ -4,7 +4,8 @@ import gsap from "gsap"
 import { onMounted, ref } from "vue"
 
 const totalTransaksi = ref(null),
-  jenisKategori = ref(null)
+  jenisKategori = ref(null),
+  aksiTransaksi = ref(null)
 
 const dataJenisKategoriPengeluaran = ref([
   {
@@ -60,6 +61,18 @@ onMounted(() => {
       opacity: 1,
       y: 0,
       delay: 0.5,
+    }
+  )
+  gsap.fromTo(
+    aksiTransaksi.value,
+    {
+      opacity: 0,
+      y: 25,
+    },
+    {
+      opacity: 1,
+      y: 0,
+      delay: 0.75,
     }
   )
 })
@@ -186,6 +199,27 @@ onMounted(() => {
             </p>
           </div>
         </article>
+      </article>
+
+      <article
+        ref="aksiTransaksi"
+        class="shadow-sharp-lg border-4 border-black grid grid-cols-2 bg-sky-500 p-4 gap-4"
+      >
+        <h2 class="col-span-2 capitalize text-xl font-semibold text-white">
+          lihat laporan transaksi
+        </h2>
+
+        <button class="button-primary font-semibold text-xs">
+          laporan minggu ini
+        </button>
+
+        <button class="button-primary font-semibold text-xs">
+          laporan bulan ini
+        </button>
+
+        <button class="button-primary font-semibold text-xs col-span-2">
+          laporan keseluruhan
+        </button>
       </article>
     </section>
   </section>
