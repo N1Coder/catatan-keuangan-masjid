@@ -3,7 +3,9 @@ import { userSession } from "../utils/useAuth"
 import DashboardView from "../views/DashboardView.vue"
 import HistoryView from "../views/HistoryView.vue"
 import AnalyticsView from "../views/AnalyticsView.vue"
-import TransactionView from "../views/TransactionView.vue"
+import TransactionsView from "../views/TransactionsView.vue"
+import AddPemasukanView from "../views/AddPemasukanView.vue"
+import AddPengeluaranView from "../views/AddPengeluaranView.vue"
 import ReportView from "../views/ReportView.vue"
 import HomeView from "../views/HomeView.vue"
 import LoginView from "../views/LoginView.vue"
@@ -51,9 +53,25 @@ const routes = [
     },
   },
   {
-    path: "/add-transaction",
-    name: "transaction",
-    component: TransactionView,
+    path: "/add-transactions",
+    name: "transactions",
+    component: TransactionsView,
+    meta: {
+      auth: true,
+    },
+  },
+  {
+    path: "/add-transactions/pemasukan",
+    name: "addpemasukan",
+    component: AddPemasukanView,
+    meta: {
+      auth: true,
+    },
+  },
+  {
+    path: "/add-transactions/pengeluaran",
+    name: "addpengeluaran",
+    component: AddPengeluaranView,
     meta: {
       auth: true,
     },

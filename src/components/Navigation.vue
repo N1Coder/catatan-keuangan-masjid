@@ -12,11 +12,11 @@ const navLists = [
     path: "/report",
     icon: "carbon:report-data",
   },
-  // {
-  //   name: "Riwayat",
-  //   path: "/history",
-  //   icon: "fluent:history-32-regular",
-  // },
+  {
+    name: "Transaksi",
+    path: "/add-transactions",
+    icon: "fluent:money-calculator-24-regular",
+  },
   {
     name: "Grafik",
     path: "/analytics",

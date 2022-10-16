@@ -3,7 +3,7 @@ import App from "./App.vue"
 import { supabase } from "./global/supabase"
 import { handleLogout, userSession } from "./utils/useAuth"
 import router from "./router/router"
-import "./main.css"
+import "./global/main.css"
 
 const app = createApp(App)
 

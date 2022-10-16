@@ -4,6 +4,9 @@ import { Icon } from "@iconify/vue"
 import { ref, onMounted } from "vue"
 import gsap from "gsap"
 import { currency } from "../utils/currency"
+import NotifSuccess from "../components/Notification.vue"
+import Notification from "../components/Notifications.vue"
+import NotifFailed from "../components/NotificationFailed.vue"
 
 const anggaran = ref(null),
   pemasukan = ref(null),
@@ -67,55 +70,41 @@ onMounted(() => {
     anggaran.value,
     {
       ease: "power2.InOut",
-      opacity: 0,
-      y: 20,
+      opacity: "0",
+      translateY: "20px",
       duration: 1,
     },
     {
-      opacity: 1,
-      y: 0,
+      opacity: "1",
+      translateY: "0",
     }
   )
   gsap.fromTo(
     pengeluaran.value,
     {
       ease: "power2.InOut",
-      opacity: 0,
-      y: 20,
+      opacity: "0",
+      translateY: "20px",
       duration: 1,
     },
     {
       delay: 0.5,
-      opacity: 1,
-      y: 0,
+      opacity: "1",
+      translateY: "0",
     }
   )
   gsap.fromTo(
     pemasukan.value,
     {
       ease: "power2.InOut",
-      opacity: 0,
-      y: 20,
+      opacity: "0",
+      translateY: "20px",
       duration: 1,
     },
     {
       delay: 0.75,
-      opacity: 1,
-      y: 0,
-    }
-  )
-  gsap.fromTo(
-    tambahTransaksi.value,
-    {
-      ease: "power2.InOut",
-      opacity: 0,
-      x: 20,
-      duration: 1,
-    },
-    {
-      delay: 1,
-      opacity: 1,
-      x: 0,
+      opacity: "1",
+      translateY: "0",
     }
   )
 })
@@ -159,7 +148,7 @@ onMounted(() => {
     <RouterLink
       ref="tambahTransaksi"
       class="inline-block mt-6 button-primary"
-      to="/add-transaction"
+      :to="{ name: 'transactions' }"
     >
       tambah transaksi
     </RouterLink>
@@ -179,6 +168,5 @@ onMounted(() => {
       </article>
 
     </article>
-
   </section>
 </template>
