@@ -4,9 +4,7 @@ import { onMounted, ref } from "vue"
 import { currency } from "../utils/currency"
 import { insertData } from "../utils/useActions"
 import { getCategories } from "../utils/useData"
-// import Notification from "../components/Notifications.vue"
-// import Notif from "../components/Notification.vue"
-// import { dataArr } from "../utils/transaction_utils/dataArr"
+import { dataNotif } from "../utils/useData"
 
 const categoriesPemasukan = ref([])
 
@@ -127,7 +125,7 @@ const addPemasukan = async () => {
     </RouterLink>
 
     <!-- <Notification>
-      <Notif v-for="msgNotif in dataArr" :status="msgNotif?.success">
+      <Notif v-for="msgNotif in dataNotif" :status="msgNotif?.success">
         {{ msgNotif?.message }}
       </Notif>
     </Notification> -->

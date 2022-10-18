@@ -6,4 +6,7 @@ const month = monthsIndonesian[date.getMonth()]
 const day = daysIndonesian[date.getDay()]
 const year = date.getFullYear()
 
-export const dateToday = `${day} ${date.getDate()} ${month} ${year}`
+const dateToday = `${day} ${date.getDate()} ${month} ${year}`
+const dateForQuery = `${year}-${date.getMonth() + 1}-${date.getDate()}`
+
+export { dateToday, dateForQuery }

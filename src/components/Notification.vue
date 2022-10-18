@@ -1,72 +1,40 @@
 <script setup>
 import { Icon } from "@iconify/vue"
-import gsap from "gsap"
-import { computed, onMounted, ref } from "vue"
+import { computed, ref } from "vue"
 
-const props = defineProps(["status"])
+const props = defineProps(["status", "message"])
 
 const notif = ref(null)
 
-const defaultMessage = computed(() => {
-  if (status === false) {
-    return "This is error message"
-  } else {
-    return "This is success message"
+const colorStatus = computed(() => {
+  return (status) => {
+    if (status === false) {
+      return "text-rose-500"
+    } else {
+      return "text-emerald-500"
+    }
   }
 })
 
-const closeNotif = () => {
-  console.log("hello")
-}
-
-onMounted(() => {
-  gsap.fromTo(
-    notif.value,
-    {
-      ease: "power2.InOut",
-      translateY: "-100px",
-      duration: 1,
-      scale: 0,
-    },
-    {
-      translateY: 0,
-      scale: 1,
+const iconStatus = computed(() => {
+  return (status) => {
+    if (status === false) {
+      return "ci:off-close"
+    } else {
+      return "icon-park-solid:success"
     }
-  )
-
-  setTimeout(() => {
-    gsap.fromTo(
-      notif.value,
-      {
-        translateY: 0,
-        scale: 1,
-      },
-      {
-        ease: "power2.InOut",
-        translateY: "-100px",
-        duration: 1,
-        scale: 0,
-      }
-    )
-  }, 3500)
+  }
 })
 </script>
 
 <template>
-  <div
-    ref="notif"
-    class="toast-notif"
-    :class="status === false ? 'text-red-500' : 'text-green-500'"
-  >
-    <Icon
-      class="text-3xl"
-      :icon="status === false ? 'ci:off-close' : 'icon-park-solid:success'"
-    />
-    <p class="capitalize font-medium">
-      <slot name="message">{{ defaultMessage }}</slot>
+  <div class="toast-notif" :class="colorStatus(status)">
+    <Icon class="text-3xl" :icon="iconStatus(status)" />
+    <p class="capitalize text-sm font-medium">
+      {{ message }}
     </p>
     <Icon
-      @click="closeNotif"
+      @click="$emit('closeNotif')"
       class="close-btn-notif"
       icon="clarity:window-close-line"
     />
