@@ -2,11 +2,27 @@
 import { Icon } from "@iconify/vue"
 import { computed, ref } from "vue"
 import { currency } from "../utils/currency"
-import { getDataToday } from "../utils/data/getDataToday"
+import { getAllData, getDataToday } from "../utils/useData"
 import { dataPemasukanHariIni, dataPengeluaranHariIni } from "../utils/useData"
 
-const totalPemasukan = ref(null),
-  totalPengeluaran = ref(null)
+const totalPemasukan = ref(0),
+  totalPengeluaran = ref(0),
+  jumlahSemuaPemasukan = ref(0),
+  jumlahSemuaPengeluaran = ref(0)
+
+const dataSemuaPemasukan = ref([]),
+  dataSemuaPengeluaran = ref([])
+
+await getAllData("pemasukan", dataSemuaPemasukan)
+await getAllData("pengeluaran", dataSemuaPengeluaran)
+
+dataSemuaPemasukan.value.map((pemasukan) => {
+  jumlahSemuaPemasukan.value += Number(pemasukan.jumlah_pemasukan)
+})
+
+dataSemuaPengeluaran.value.map((pengeluaran) => {
+  jumlahSemuaPengeluaran.value += Number(pengeluaran.jumlah_pengeluaran)
+})
 
 await getDataToday(
   "pemasukan",
@@ -30,7 +46,7 @@ dataPengeluaranHariIni.value.map((pengeluaran) => {
 })
 
 const anggaranSaatIni = computed(() => {
-  return totalPemasukan.value - totalPengeluaran.value
+  return jumlahSemuaPemasukan.value - jumlahSemuaPengeluaran.value
 })
 </script>
 
@@ -76,7 +92,7 @@ const anggaranSaatIni = computed(() => {
       <div
         class="flex items-center justify-between text-lg font-bold text-emerald-500"
       >
-        <p class="capitalize">jumlah pemasukan ini</p>
+        <p class="capitalize">jumlah pemasukan hari ini</p>
         <Icon icon="bi:arrow-down-square-fill" />
       </div>
 

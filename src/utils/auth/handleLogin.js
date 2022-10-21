@@ -1,5 +1,7 @@
 import { supabase } from "../../global/supabase"
 import router from "../../router/router"
+import { dataNotif } from "../data/dataForNotif"
+import { showUsername } from "../showUsername"
 import { userSession } from "./userSession"
 
 /*
@@ -15,19 +17,34 @@ export const handleLogin = async (credentials) => {
       password: password,
     })
 
-    userSession.value = localStorage.getItem("supabase.auth.token")
+    userSession.value = JSON.parse(localStorage.getItem("supabase.auth.token"))
 
-    if (error) {
-      alert("Error logging in: " + error.message)
-    }
+    if (error) throw error
     // No error throw, but no user detected so send magic link
     if (!error && !user) {
-      alert("Check your email for the login link!")
+      dataNotif.value.push({
+        id: Math.trunc(Math.random() * 100),
+        success: true,
+        message: `Silahkan cek email anda`,
+      })
     }
 
+    console.log(userSession.value)
+
+    dataNotif.value.push({
+      id: Math.trunc(Math.random() * 100),
+      success: true,
+      message: `Selamat datang ${showUsername(
+        userSession.value.currentSession
+      )}`,
+    })
     router.push({ name: "dashboard" })
   } catch (error) {
     console.error("Error thrown:", error.message)
-    alert(error.error_description || error)
+    dataNotif.value.push({
+      id: Math.trunc(Math.random() * 100),
+      success: false,
+      message: `Error: ${error.message}`,
+    })
   }
 }

@@ -11,7 +11,10 @@ export const getWeekDates = () => {
   end.setDate(numDay + (6 - dayOfWeek))
   end.setHours(0, 0, 0, 0)
 
-  const formatStart = ``
+  const startWeek = `${start.getFullYear()}-${
+    start.getMonth() + 1
+  }-${start.getDate()}`
+  const endWeek = `${end.getFullYear()}-${end.getMonth() + 1}-${end.getDate()}`
 
-  return [start, end]
+  return [startWeek, endWeek]
 }

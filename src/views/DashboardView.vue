@@ -2,7 +2,9 @@
 import { dateToday } from "../utils/useTime"
 import { ref } from "vue"
 import InfoTransaction from "../components/InfoTransaction.vue"
-import LoadingInfoTransaction from "../components/loading/LoadingInfoTransaction.vue"
+import LoadingInfoDashboard from "../components/loading/LoadingInfoDashboard.vue"
+import InfoTransactionToday from "../components/InfoTransactionToday.vue"
+import { handleLogout } from "../utils/useAuth"
 
 const tambahTransaksi = ref(null)
 </script>
@@ -24,7 +26,7 @@ const tambahTransaksi = ref(null)
       </template>
 
       <template #fallback>
-        <LoadingInfoTransaction />
+        <LoadingInfoDashboard :count="3" />
       </template>
     </Suspense>
 
@@ -36,20 +38,18 @@ const tambahTransaksi = ref(null)
       tambah transaksi
     </RouterLink>
 
-    <!-- <article class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-      <h2 class="capitalize text-orange-600 text-lg font-bold md:col-span-2">
-        daftar transaksi hari ini
-      </h2>
+    <button class="inline-block ml-4 button-primary" @click="handleLogout">
+      Logout
+    </button>
 
-      <article v-for="(transaksi, i) in listTransaksi" :key="i" class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg">
-      <div>
-        <p class="text-md font-semibold" :class="transaksi.jenisTransaksi === 'pengeluaran' ? 'text-rose-700' : 'text-emerald-700'">
-            <p class="capitalize" :class="transaksi.jenisTransaksi === 'pengeluaran' ? 'text-rose-500' : 'text-emerald-500'">{{ transaksi.namaTransaksi }}</p>
-            Rp. {{ currency(transaksi.nominalTransaksi) }},00
-          </p>
-        </div>
-      </article>
+    <Suspense>
+      <template #default>
+        <InfoTransactionToday />
+      </template>
 
-    </article> -->
+      <template #fallback>
+        <LoadingInfoDashboard :count="4" />
+      </template>
+    </Suspense>
   </section>
 </template>

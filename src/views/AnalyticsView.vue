@@ -1,53 +1,13 @@
 <script setup>
-import { Icon } from "@iconify/vue"
-import PieChart from "../components/PieChart.vue"
-import BarChart from "../components/BarChart.vue"
-import { onMounted, ref } from "vue"
-import gsap from "gsap"
-import LineChart from "../components/LineChart.vue"
+import BarChart from "../components/chart/BarChart.vue"
+import LineChart from "../components/chart/LineChart.vue"
+import { ref } from "vue"
+import InfoChartPie from "../components/InfoChartPie.vue"
+import LoadingInfoAnalytics from "../components/loading/LoadingInfoAnalytics.vue"
 
 const pieChart = ref(null),
   barChart = ref(null),
   lineChart = ref(null)
-
-onMounted(() => {
-  gsap.fromTo(
-    pieChart.value,
-    {
-      opacity: 0,
-      x: 25,
-    },
-    {
-      opacity: 1,
-      x: 0,
-      delay: 0.25,
-    }
-  )
-  gsap.fromTo(
-    barChart.value,
-    {
-      opacity: 0,
-      x: -25,
-    },
-    {
-      opacity: 1,
-      x: 0,
-      delay: 0.5,
-    }
-  )
-  gsap.fromTo(
-    lineChart.value,
-    {
-      opacity: 0,
-      x: 25,
-    },
-    {
-      opacity: 1,
-      x: 0,
-      delay: 0.75,
-    }
-  )
-})
 </script>
 
 <template>
@@ -56,41 +16,40 @@ onMounted(() => {
       grafik keuangan
     </h1>
 
-    <article
-      ref="pieChart"
-      class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-slate-800 p-4 gap-4"
-    >
-      <h2 class="capitalize text-xl font-semibold text-white">
-        perbandingan jumlah transaksi minggu ini
-      </h2>
+    <Suspense>
+      <template #default>
+        <InfoChartPie />
+      </template>
 
-      <PieChart />
+      <template #fallback>
+        <LoadingInfoAnalytics :background="'bg-slate-800'">
+          <div class="w-3/4 h-4 rounded-full bg-slate-300 animate-pulse"></div>
+          <div class="w-1/2 h-4 rounded-full bg-slate-300 animate-pulse"></div>
 
-      <div
-        ref="pengeluaran"
-        class="flex items-center justify-between bg-white p-4 rounded-lg"
-      >
-        <div class="flex items-center gap-x-2 text-md text-rose-500 font-bold">
-          <p class="capitalize">pengeluaran</p>
-          <Icon icon="bi:arrow-up-square-fill" />
-        </div>
-        <p class="text-base text-rose-700 font-semibold">Rp. 423.000,00</p>
-      </div>
-      <div
-        ref="pemasukan"
-        class="flex items-center justify-between bg-white p-4 rounded-lg"
-      >
-        <div
-          class="flex items-center gap-x-2 text-md text-emerald-500 font-bold"
-        >
-          <p class="capitalize">pemasukan</p>
-          <Icon icon="bi:arrow-down-square-fill" />
-        </div>
-        <p class="text-base text-emerald-700 font-semibold">Rp. 520.000,00</p>
-      </div>
-    </article>
+          <div
+            class="mx-auto w-[90%] aspect-square rounded-full bg-slate-300 animate-pulse"
+          ></div>
+
+          <article
+            v-for="index in 2"
+            class="flex items-center gap-x-2 bg-white p-4 rounded-lg"
+          >
+            <div
+              class="w-2/5 h-4 rounded-full bg-slate-300 animate-pulse"
+            ></div>
+            <div
+              class="w-4 aspect-square rounded-full bg-slate-300 animate-pulse"
+            ></div>
+
+            <div
+              class="ml-auto w-1/3 h-4 rounded-full bg-slate-300 animate-pulse"
+            ></div>
+          </article>
+        </LoadingInfoAnalytics>
+      </template>
+    </Suspense>
+
     <article
-      ref="barChart"
       class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-zinc-800 p-4 gap-4"
     >
       <h2 class="capitalize text-xl font-semibold text-white">

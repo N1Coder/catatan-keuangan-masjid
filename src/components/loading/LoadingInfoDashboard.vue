@@ -1,7 +1,11 @@
+<script setup>
+const props = defineProps(["count"])
+</script>
+
 <template>
   <article class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
     <article
-      v-for="index in 3"
+      v-for="index in count"
       class="shadow-sharp border-[3px] border-black bg-white p-4 md:col-span-2 rounded-lg"
     >
       <div class="flex items-center justify-between">

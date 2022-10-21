@@ -1,19 +1,32 @@
 import { supabase } from "../../global/supabase"
-import { dataNotif } from "../data/dataForNotif"
 import { dateForQuery } from "../time/handleDate"
+import { dataNotif } from "./dataForNotif"
 
-export const getDataToday = async (table, query, col, dataArr) => {
+export const getDataCategories = async (
+  table,
+  query,
+  foreignTable,
+  foreignKey,
+  dataArr,
+  colDate
+) => {
   try {
     const { data, error } = await supabase
       .from(table)
-      .select(query)
-      .eq(col, dateForQuery)
-
-    console.log(data)
+      .select(
+        `
+      ${query},
+      ${foreignTable} (
+        ${foreignKey}
+      )
+    `
+      )
+      .eq(colDate, dateForQuery)
 
     if (error) throw error
 
     dataArr.value = data
+    console.log(data)
   } catch (err) {
     dataNotif.value.push({
       id: Math.trunc(Math.random() * 100),

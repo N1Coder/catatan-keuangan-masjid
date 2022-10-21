@@ -1,7 +1,8 @@
 <script setup>
-import { Icon } from "@iconify/vue"
-import gsap from "gsap"
-import { onMounted, ref } from "vue"
+import { ref } from "vue"
+import LoadingInfoReport from "../components/loading/LoadingInfoReport.vue"
+import InfoReport from "../components/InfoReport.vue"
+import InfoCategoryReport from "../components/InfoCategoryReport.vue"
 
 const totalTransaksi = ref(null),
   jenisKategori = ref(null),
@@ -37,45 +38,6 @@ const dataJenisKategoriPemasukan = ref([
     jenisTransaksi: "pemasukan",
   },
 ])
-
-onMounted(() => {
-  gsap.fromTo(
-    totalTransaksi.value,
-    {
-      opacity: 0,
-      y: 25,
-    },
-    {
-      opacity: 1,
-      y: 0,
-      delay: 0.25,
-    }
-  )
-  gsap.fromTo(
-    jenisKategori.value,
-    {
-      opacity: 0,
-      y: 25,
-    },
-    {
-      opacity: 1,
-      y: 0,
-      delay: 0.5,
-    }
-  )
-  gsap.fromTo(
-    aksiTransaksi.value,
-    {
-      opacity: 0,
-      y: 25,
-    },
-    {
-      opacity: 1,
-      y: 0,
-      delay: 0.75,
-    }
-  )
-})
 </script>
 
 <template>
@@ -87,119 +49,97 @@ onMounted(() => {
     </header>
 
     <section class="grid grid-cols-1 gap-y-12">
-      <article
-        ref="totalTransaksi"
-        class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-red-500 p-4 gap-4"
-      >
-        <h2 class="capitalize text-xl font-semibold text-white">
-          total transaksi
-        </h2>
+      <Suspense>
+        <template #default>
+          <InfoReport />
+        </template>
 
-        <article ref="pengeluaran" class="bg-white p-4 rounded-lg">
-          <div
-            class="flex items-center justify-between text-md text-rose-500 font-bold"
-          >
-            <p class="capitalize">pengeluaran</p>
-            <Icon icon="bi:arrow-up-square-fill" />
-          </div>
-          <div>
-            <p class="mt-2 text-base text-rose-700 font-semibold">
-              Rp. 100.000,00
-            </p>
-          </div>
-        </article>
+        <template #fallback>
+          <LoadingInfoReport :background="'bg-red-500'">
+            <div
+              class="w-2/5 h-4 rounded-full animate-pulse bg-slate-300"
+            ></div>
 
-        <article ref="pemasukan" class="bg-white p-4 rounded-lg">
-          <div
-            class="flex items-center justify-between text-md text-emerald-500 font-bold"
-          >
-            <p class="capitalize">pemasukan</p>
-            <Icon icon="bi:arrow-down-square-fill" />
-          </div>
-          <div>
-            <p class="mt-2 text-base text-emerald-700 font-semibold">
-              Rp. 350.000,00
-            </p>
-          </div>
-        </article>
-      </article>
+            <article v-for="index in 2" class="bg-white p-4 rounded-lg">
+              <div class="flex items-center justify-between">
+                <div
+                  class="w-2/3 h-4 rounded-full bg-slate-300 animate-pulse"
+                ></div>
+                <div
+                  class="w-4 aspect-square rounded-full bg-slate-300 animate-pulse"
+                ></div>
+              </div>
+              <div>
+                <div
+                  class="mt-2 w-1/3 h-4 rounded-full bg-slate-300 animate-pulse"
+                ></div>
+              </div>
+            </article>
+          </LoadingInfoReport>
+        </template>
+      </Suspense>
 
-      <article
-        ref="jenisKategori"
-        class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-amber-400 p-4 gap-4"
-      >
-        <h2 class="capitalize text-xl font-semibold text-white">
-          jenis kategori
-        </h2>
+      <Suspense>
+        <template #default>
+          <InfoCategoryReport />
+        </template>
 
-        <article ref="pengeluaran" class="bg-white p-4 rounded-lg">
-          <h2 class="capitalize text-md font-semibold mb-1">
-            top kategori pengeluaran
-          </h2>
+        <template #fallback>
+          <LoadingInfoReport :background="'bg-amber-400'">
+            <div
+              class="w-8/12 h-4 rounded-full animate-pulse bg-slate-300"
+            ></div>
 
-          <div
-            class="flex items-center justify-between text-lg text-rose-500 font-bold"
-          >
-            <p class="capitalize text-sm">tagihan</p>
+            <article
+              v-for="index in 2"
+              :key="index"
+              class="bg-white p-4 rounded-lg"
+            >
+              <div
+                class="w-1/3 h-4 rounded-full animate-pulse bg-slate-300 mb-4"
+              ></div>
 
-            <p class="mt-2 text-sm text-rose-700 font-semibold">
-              Rp. 100.000,00
-            </p>
-          </div>
+              <div class="flex items-center justify-between">
+                <div
+                  class="w-1/2 h-4 rounded-full animate-pulse bg-slate-300"
+                ></div>
 
-          <hr class="border border-slate-200 rounded-full mt-1" />
+                <div
+                  class="mt-2 w-1/6 h-4 rounded-full animate-pulse bg-slate-300"
+                ></div>
+              </div>
 
-          <div
-            class="flex items-center justify-between text-lg text-rose-500 font-bold"
-          >
-            <p class="capitalize text-sm">biaya operasional</p>
+              <div
+                class="w-full h-1 rounded-full animate-pulse bg-slate-300 my-2 mt-3"
+              ></div>
 
-            <p class="mt-2 text-sm text-rose-700 font-semibold">
-              Rp. 600.000,00
-            </p>
-          </div>
+              <div class="flex items-center justify-between">
+                <div
+                  class="w-1/2 h-4 rounded-full animate-pulse bg-slate-300"
+                ></div>
 
-          <hr class="border border-slate-200 rounded-full mt-1" />
+                <div
+                  class="mt-2 w-1/6 h-4 rounded-full animate-pulse bg-slate-300"
+                ></div>
+              </div>
 
-          <div
-            class="flex items-center justify-between text-lg text-rose-500 font-bold"
-          >
-            <p class="capitalize text-sm">lain-lain</p>
+              <div
+                class="w-full h-1 rounded-full animate-pulse bg-slate-300 my-2 mt-3"
+              ></div>
 
-            <p class="mt-2 text-sm text-rose-700 font-semibold">
-              Rp. 1.100.000,00
-            </p>
-          </div>
-        </article>
+              <div class="flex items-center justify-between">
+                <div
+                  class="w-1/2 h-4 rounded-full animate-pulse bg-slate-300"
+                ></div>
 
-        <article ref="pemasukan" class="bg-white p-4 rounded-lg">
-          <h2 class="capitalize text-md font-semibold mb-1">
-            top kategori pemasukan
-          </h2>
-
-          <div
-            class="flex items-center justify-between text-lg text-emerald-500 font-bold"
-          >
-            <p class="capitalize text-sm">uang kas</p>
-
-            <p class="mt-2 text-sm text-emerald-700 font-semibold">
-              Rp. 100.000,00
-            </p>
-          </div>
-
-          <hr class="border border-slate-200 rounded-full mt-1" />
-
-          <div
-            class="flex items-center justify-between text-lg text-emerald-500 font-bold"
-          >
-            <p class="capitalize text-sm">hasil selamatan</p>
-
-            <p class="mt-2 text-sm text-emerald-700 font-semibold">
-              Rp. 550.000,00
-            </p>
-          </div>
-        </article>
-      </article>
+                <div
+                  class="mt-2 w-1/6 h-4 rounded-full animate-pulse bg-slate-300"
+                ></div>
+              </div>
+            </article>
+          </LoadingInfoReport>
+        </template>
+      </Suspense>
 
       <article
         ref="aksiTransaksi"

@@ -1,15 +1,9 @@
 import { supabase } from "../../global/supabase"
 import { dataNotif } from "../data/dataForNotif"
-import { dateForQuery } from "../time/handleDate"
 
-export const getDataToday = async (table, query, col, dataArr) => {
+export const getAllData = async (table, dataArr) => {
   try {
-    const { data, error } = await supabase
-      .from(table)
-      .select(query)
-      .eq(col, dateForQuery)
-
-    console.log(data)
+    const { data, error } = await supabase.from(table).select("*")
 
     if (error) throw error
 

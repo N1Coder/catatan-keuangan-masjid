@@ -6,17 +6,33 @@ import Navigation from "./components/Navigation.vue"
 import { userSession, validateUserSession } from "./utils/useAuth"
 import { dataNotif } from "./utils/useData"
 import { getWeekDates } from "./utils/time/filterWeek"
+import { getYearDates } from "./utils/time/filterYear"
+import { getMonthDates } from "./utils/time/filterMonth"
+import { onMounted } from "vue"
+import { getDataByDate } from "./utils/data/getDataByDate"
 
 const closeNotif = (index) => {
   dataNotif.value.splice(index, 1)
 }
 
-const [startWeek, endWeek] = getWeekDates()
-console.log(startWeek, endWeek)
+// filter data by year
+// const [startYear, endYear] = getYearDates()
+
+// onMounted(() => {
+//   getDataByDate("pemasukan", "*", "tanggal_pemasukan", startYear, endYear)
+//   getDataByDate("pengeluaran", "*", "tanggal_pengeluaran", startYear, endYear)
+// })
+
+// filter data by month
+// const [startMonth, endMonth] = getMonthDates()
+
+// onMounted(() => {
+//   getDataByDate("pemasukan", "*", "tanggal_pemasukan", startMonth, endMonth)
+//   getDataByDate("pengeluaran", "*", "tanggal_pengeluaran", startMonth, endMonth)
+// })
 </script>
 
 <template>
-  <!-- WIP for later -->
   <Notifications>
     <transition-group name="notif">
       <Notif
