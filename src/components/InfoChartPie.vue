@@ -33,11 +33,11 @@ await getDataByDate(
 )
 
 dataPemasukanMingguIni.value.map((pemasukan) => {
-  jumlahPemasukanMingguIni.value += Number(pemasukan.jumlah_pemasukan)
+  jumlahPemasukanMingguIni.value += Number(pemasukan.jumlah)
 })
 
 dataPengeluaranMingguIni.value.map((pengeluaran) => {
-  jumlahPengeluaranMingguIni.value += Number(pengeluaran.jumlah_pengeluaran)
+  jumlahPengeluaranMingguIni.value += Number(pengeluaran.jumlah)
 })
 
 console.log(jumlahPemasukanMingguIni.value, jumlahPengeluaranMingguIni.value)

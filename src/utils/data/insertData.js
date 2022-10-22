@@ -1,5 +1,5 @@
 import { supabase } from "../../global/supabase"
-import { dataNotif } from "../data/dataForNotif"
+import { dataNotif } from "./dataForNotif"
 
 export const insertData = async (table, dataInput) => {
   try {

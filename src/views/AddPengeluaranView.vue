@@ -4,9 +4,6 @@ import { onMounted, ref } from "vue"
 import { currency } from "../utils/currency"
 import { insertData } from "../utils/useActions"
 import { getCategories } from "../utils/useData"
-// import Notification from "../components/Notifications.vue"
-// import Notif from "../components/Notification.vue"
-// import { dataArr } from "../utils/transaction_utils/dataArr"
 
 const categoriesPengeluaran = ref([])
 
@@ -23,11 +20,6 @@ const addPengeluaran = async () => {
   if (incomeInput.value === 0) {
     return alert("Tolong isi jumlah transaksi")
   }
-
-  // if (validateUserSession(userSession.value)) {
-  //   alert("Please log in again!")
-  //   return
-  // }
 
   try {
     const newPengeluaran = await insertData("pengeluaran", {
@@ -123,11 +115,5 @@ const addPengeluaran = async () => {
       <Icon icon="ic:baseline-arrow-back-ios-new" />
       <p>kembali</p>
     </RouterLink>
-
-    <!-- <Notification>
-      <Notif v-for="msgNotif in dataArr" :status="msgNotif?.success">
-        {{ msgNotif?.message }}
-      </Notif>
-    </Notification> -->
   </section>
 </template>

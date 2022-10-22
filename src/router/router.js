@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { userSession } from "../utils/useAuth"
 import DashboardView from "../views/DashboardView.vue"
-import HistoryView from "../views/HistoryView.vue"
+import ReportTimeView from "../views/ReportTimeView.vue"
 import AnalyticsView from "../views/AnalyticsView.vue"
 import TransactionsView from "../views/TransactionsView.vue"
 import AddPemasukanView from "../views/AddPemasukanView.vue"
@@ -37,9 +37,9 @@ const routes = [
     },
   },
   {
-    path: "/history",
-    name: "history",
-    component: HistoryView,
+    path: "/report/:time",
+    name: "reporttime",
+    component: ReportTimeView,
     meta: {
       auth: true,
     },
@@ -76,6 +76,7 @@ const routes = [
       auth: true,
     },
   },
+
   {
     path: "/signin",
     name: "signin",

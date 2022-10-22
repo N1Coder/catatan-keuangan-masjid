@@ -4,7 +4,6 @@ import { onMounted, ref } from "vue"
 import { currency } from "../utils/currency"
 import { insertData } from "../utils/useActions"
 import { getCategories } from "../utils/useData"
-import { dataNotif } from "../utils/useData"
 
 const categoriesPemasukan = ref([])
 
@@ -21,11 +20,6 @@ const addPemasukan = async () => {
   if (incomeInput.value === 0) {
     return alert("Tolong isi jumlah transaksi")
   }
-
-  // if (validateUserSession(userSession.value)) {
-  //   alert("Please log in again!")
-  //   return
-  // }
 
   try {
     const newPemasukan = await insertData("pemasukan", {
@@ -123,11 +117,5 @@ const addPemasukan = async () => {
       <Icon icon="ic:baseline-arrow-back-ios-new" />
       <p>kembali</p>
     </RouterLink>
-
-    <!-- <Notification>
-      <Notif v-for="msgNotif in dataNotif" :status="msgNotif?.success">
-        {{ msgNotif?.message }}
-      </Notif>
-    </Notification> -->
   </section>
 </template>

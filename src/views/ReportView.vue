@@ -1,43 +1,7 @@
 <script setup>
-import { ref } from "vue"
 import LoadingInfoReport from "../components/loading/LoadingInfoReport.vue"
 import InfoReport from "../components/InfoReport.vue"
 import InfoCategoryReport from "../components/InfoCategoryReport.vue"
-
-const totalTransaksi = ref(null),
-  jenisKategori = ref(null),
-  aksiTransaksi = ref(null)
-
-const dataJenisKategoriPengeluaran = ref([
-  {
-    namaKategori: "tagihan",
-    totalJumlahUang: "700000",
-    jenisTransaksi: "pengeluaran",
-  },
-  {
-    namaKategori: "biaya operasional",
-    totalJumlahUang: "1150000",
-    jenisTransaksi: "pengeluaran",
-  },
-  {
-    namaKategori: "lain-lain",
-    totalJumlahUang: "422000",
-    jenisTransaksi: "pengeluaran",
-  },
-])
-
-const dataJenisKategoriPemasukan = ref([
-  {
-    namaKategori: "uang kas",
-    totalJumlahUang: "250000",
-    jenisTransaksi: "pemasukan",
-  },
-  {
-    namaKategori: "sumbangan",
-    totalJumlahUang: "50000",
-    jenisTransaksi: "pemasukan",
-  },
-])
 </script>
 
 <template>
@@ -49,7 +13,7 @@ const dataJenisKategoriPemasukan = ref([
     </header>
 
     <section class="grid grid-cols-1 gap-y-12">
-      <Suspense>
+      <!-- <Suspense>
         <template #default>
           <InfoReport />
         </template>
@@ -77,7 +41,7 @@ const dataJenisKategoriPemasukan = ref([
             </article>
           </LoadingInfoReport>
         </template>
-      </Suspense>
+      </Suspense> -->
 
       <Suspense>
         <template #default>
@@ -142,24 +106,32 @@ const dataJenisKategoriPemasukan = ref([
       </Suspense>
 
       <article
-        ref="aksiTransaksi"
         class="shadow-sharp-lg border-4 border-black grid grid-cols-2 bg-sky-500 p-4 gap-4"
       >
         <h2 class="col-span-2 capitalize text-xl font-semibold text-white">
           lihat laporan transaksi
         </h2>
 
-        <button class="button-primary font-semibold text-xs">
+        <RouterLink
+          :to="`/report/week`"
+          class="button-primary font-semibold text-xs text-center"
+        >
           laporan minggu ini
-        </button>
+        </RouterLink>
 
-        <button class="button-primary font-semibold text-xs">
+        <RouterLink
+          :to="`/report/month`"
+          class="button-primary font-semibold text-xs text-center"
+        >
           laporan bulan ini
-        </button>
+        </RouterLink>
 
-        <button class="button-primary font-semibold text-xs col-span-2">
+        <RouterLink
+          :to="`/report/all`"
+          class="button-primary font-semibold text-xs text-center col-span-2"
+        >
           laporan keseluruhan
-        </button>
+        </RouterLink>
       </article>
     </section>
   </section>

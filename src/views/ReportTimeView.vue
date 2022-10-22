@@ -1,48 +1,47 @@
 <script setup>
-import { ref } from "vue"
+import { Icon } from "@iconify/vue"
+import { computed, ref } from "vue"
 import { currency } from "../utils/currency"
-import { getCategories, getDataCategories } from "../utils/useData"
-
-const categoryPemasukan = ref([]),
-  categoryPengeluaran = ref([])
-
-const dataCategoryPemasukan = ref([]),
-  dataCategoryPengeluaran = ref([])
-
-await getCategories("kategori_pemasukan", categoryPemasukan)
-await getCategories("kategori_pengeluaran", categoryPengeluaran)
-
-await getDataCategories(
-  "pemasukan",
-  "jumlah",
-  "kategori_pemasukan",
-  "*",
-  dataCategoryPemasukan,
-  "tanggal_pemasukan"
-)
-await getDataCategories(
-  "pengeluaran",
-  "jumlah",
-  "kategori_pengeluaran",
-  "*",
-  dataCategoryPengeluaran,
-  "tanggal_pengeluaran"
-)
-
-const sumCategoryPemasukan = (nameCategory, data) => {
-  return data
-    .filter((i) => i.kategori_pemasukan.id_kategori === nameCategory)
-    .reduce((a, b) => Number(a) + Number(b.jumlah), 0)
-}
-
-const sumCategoryPengeluaran = (nameCategory, data) => {
-  return data
-    .filter((i) => i.kategori_pengeluaran.id_kategori === nameCategory)
-    .reduce((a, b) => Number(a) + Number(b.jumlah), 0)
-}
+import { getDataByDate } from "../utils/data/getDataByDate"
 </script>
 
 <template>
+  <!-- <article class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <article
+      class="shadow-sharp border-[3px] border-black bg-white p-4 md:col-span-2 rounded-lg"
+    >
+      <div
+        class="flex items-center justify-between text-lg font-bold text-rose-500"
+      >
+        <p class="capitalize">jumlah pengeluaran minggu ini</p>
+        <Icon icon="bi:arrow-up-square-fill" />
+      </div>
+
+      <div>
+        <p class="mt-2 text-md font-semibold text-rose-700">
+          Rp. {{ currency(totalPengeluaran) }},00
+        </p>
+      </div>
+    </article>
+
+    <article
+      class="shadow-sharp border-[3px] border-black bg-white p-4 md:col-span-2 rounded-lg"
+    >
+      <div
+        class="flex items-center justify-between text-lg font-bold text-emerald-500"
+      >
+        <p class="capitalize">jumlah pemasukan minggu ini</p>
+        <Icon icon="bi:arrow-down-square-fill" />
+      </div>
+
+      <div>
+        <p class="mt-2 text-md font-semibold text-emerald-700">
+          Rp. {{ currency(totalPemasukan) }},00
+        </p>
+      </div>
+    </article>
+  </article>
+
   <article
     class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-amber-400 p-4 gap-4"
   >
@@ -93,5 +92,13 @@ const sumCategoryPengeluaran = (nameCategory, data) => {
         </p>
       </div>
     </article>
-  </article>
+  </article> -->
+
+  <RouterLink
+    class="flex items-center w-fit mt-8 button-primary"
+    :to="{ name: 'report' }"
+  >
+    <Icon icon="ic:baseline-arrow-back-ios-new" />
+    <p>kembali</p>
+  </RouterLink>
 </template>

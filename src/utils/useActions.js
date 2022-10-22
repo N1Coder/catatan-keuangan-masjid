@@ -1,3 +1,3 @@
-import { insertData } from "./transactions_utils/insertData"
+import { insertData } from "./data/insertData"
 
 export { insertData }

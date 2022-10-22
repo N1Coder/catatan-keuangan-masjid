@@ -17,32 +17,34 @@ await getAllData("pemasukan", dataSemuaPemasukan)
 await getAllData("pengeluaran", dataSemuaPengeluaran)
 
 dataSemuaPemasukan.value.map((pemasukan) => {
-  jumlahSemuaPemasukan.value += Number(pemasukan.jumlah_pemasukan)
+  jumlahSemuaPemasukan.value += Number(pemasukan.jumlah)
 })
 
 dataSemuaPengeluaran.value.map((pengeluaran) => {
-  jumlahSemuaPengeluaran.value += Number(pengeluaran.jumlah_pengeluaran)
+  jumlahSemuaPengeluaran.value += Number(pengeluaran.jumlah)
 })
 
 await getDataToday(
   "pemasukan",
-  "jumlah_pemasukan",
+  "jumlah",
   "tanggal_pemasukan",
   dataPemasukanHariIni
 )
 await getDataToday(
   "pengeluaran",
-  "jumlah_pengeluaran",
+  "jumlah",
   "tanggal_pengeluaran",
   dataPengeluaranHariIni
 )
 
+console.log(dataPemasukanHariIni.value)
+
 dataPemasukanHariIni.value.map((pemasukan) => {
-  totalPemasukan.value += Number(pemasukan.jumlah_pemasukan)
+  totalPemasukan.value += Number(pemasukan.jumlah)
 })
 
 dataPengeluaranHariIni.value.map((pengeluaran) => {
-  totalPengeluaran.value += Number(pengeluaran.jumlah_pengeluaran)
+  totalPengeluaran.value += Number(pengeluaran.jumlah)
 })
 
 const anggaranSaatIni = computed(() => {
@@ -64,7 +66,7 @@ const anggaranSaatIni = computed(() => {
 
       <div>
         <p class="mt-2 text-md font-semibold text-slate-700">
-          Rp. {{ currency(anggaranSaatIni) }},00
+          Rp. {{ currency(anggaranSaatIni) || 0 }},00
         </p>
       </div>
     </article>

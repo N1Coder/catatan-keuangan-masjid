@@ -1,39 +1,11 @@
 <script setup>
-import gsap from "gsap"
-import { supabase } from "../global/supabase"
-import { ref, onMounted, reactive } from "vue"
+import { reactive } from "vue"
 import { handleLogin } from "../utils/useAuth"
 
 const dataLogin = reactive({
   email: null,
   password: null,
 })
-
-// onMounted(() => {
-//   gsap.fromTo(
-//     heading.value,
-//     {
-//       opacity: 0,
-//       y: 80,
-//     },
-//     {
-//       opacity: 1,
-//       y: 0,
-//     }
-//   )
-//   gsap.fromTo(
-//     subHeading.value,
-//     {
-//       opacity: 0,
-//       y: 80,
-//     },
-//     {
-//       opacity: 1,
-//       y: 0,
-//       delay: 0.5,
-//     }
-//   )
-// })
 </script>
 
 <template>
@@ -74,9 +46,9 @@ const dataLogin = reactive({
           value="Masuk"
         />
       </label>
-      <p class="capitalize text-xl text-slate-800 tracking-wide font-semibold">
-        {{ dataLogin.password }}
-      </p>
+      <p
+        class="capitalize text-xl text-slate-800 tracking-wide font-semibold"
+      ></p>
     </form>
   </section>
 </template>
