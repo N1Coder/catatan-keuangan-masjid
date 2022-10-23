@@ -25,7 +25,7 @@ const addPengeluaran = async () => {
     const newPengeluaran = await insertData("pengeluaran", {
       kategori_pengeluaran: categoriesInput.value,
       nama_pengeluaran: nameInput.value,
-      jumlah_pengeluaran: incomeInput.value,
+      jumlah: incomeInput.value,
       tanggal_pengeluaran: dateInput.value,
     })
 
@@ -101,7 +101,7 @@ const addPengeluaran = async () => {
         />
 
         <p class="capitalize text-lg text-orange-500 font-medium">
-          Rp. {{ currency(incomeInput) || "0" }},00
+          Rp. {{ currency(incomeInput) || 0 }},00
         </p>
       </label>
 

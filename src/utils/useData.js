@@ -14,6 +14,8 @@ import {
 } from "./data/dataPemasukan"
 import { dataNotif } from "./data/dataForNotif"
 import { getDataCategories } from "./data/getDataCategories"
+import { getDataCategoriesByDate } from "./data/getDataCategoriesByDate"
+import { getAllCategoriesData } from "./data/getAllCategoriesData"
 import { getCategories } from "./data/getCategories"
 import { getDataToday } from "./data/getDataToday"
 import { getAllData } from "./data/getAllData"
@@ -21,7 +23,9 @@ import { getAllData } from "./data/getAllData"
 export {
   getCategories,
   getDataCategories,
+  getDataCategoriesByDate,
   getDataToday,
+  getAllCategoriesData,
   getAllData,
   dataNotif,
   dataPemasukanHariIni,

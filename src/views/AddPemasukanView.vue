@@ -25,7 +25,7 @@ const addPemasukan = async () => {
     const newPemasukan = await insertData("pemasukan", {
       kategori_pemasukan: categoriesInput.value,
       nama_pemasukan: nameInput.value,
-      jumlah_pemasukan: incomeInput.value,
+      jumlah: incomeInput.value,
       tanggal_pemasukan: dateInput.value,
     })
 

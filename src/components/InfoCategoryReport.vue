@@ -46,7 +46,9 @@ const sumCategoryPengeluaran = (nameCategory, data) => {
   <article
     class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-amber-400 p-4 gap-4"
   >
-    <h2 class="capitalize text-xl font-semibold text-white">jenis kategori</h2>
+    <h2 class="capitalize text-xl font-semibold text-white">
+      laporan kategori hari ini
+    </h2>
 
     <article
       class="bg-white p-4 rounded-lg divide-y-reverse divide-y-2 divide-slate-300"
