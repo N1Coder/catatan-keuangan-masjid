@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue"
-import { currency } from "../utils/currency"
-import { getCategories, getDataCategories } from "../utils/useData"
+import { currency } from "../../utils/currency"
+import { getCategories, getDataCategories } from "../../utils/useData"
 
 const categoryPemasukan = ref([]),
   categoryPengeluaran = ref([])

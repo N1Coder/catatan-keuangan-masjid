@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from "vue"
-import { getDataByDate } from "../utils/data/getDataByDate"
-import { daysIndonesian } from "../utils/time/getDay"
-import { getWeekDates } from "../utils/useTime"
-import BarChart from "./chart/BarChart.vue"
-import { sumInDay } from "../utils/data/dataForBar"
+import { getDataByDate } from "../../utils/data/getDataByDate"
+import { daysIndonesian } from "../../utils/time/getDay"
+import { getWeekDates } from "../../utils/useTime"
+import BarChart from "../chart/BarChart.vue"
+import { sumInDay } from "../../utils/data/dataForBar"
 
 const dataPemasukanMingguIni = ref([]),
   dataPengeluaranMingguIni = ref([])

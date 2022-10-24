@@ -1,7 +1,7 @@
 <script setup>
 import { Icon } from "@iconify/vue"
 
-import ReportTimeDetail from "../components/ReportTimeDetail.vue"
+import ReportTimeDetail from "../components/detail_info/InfoReportTimeDetail.vue"
 import LoadingInfoReportDetail from "../components/loading/LoadingInfoReportDetail.vue"
 </script>
 

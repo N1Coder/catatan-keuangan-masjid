@@ -10,6 +10,10 @@
   @apply relative min-h-screen overflow-x-hidden bg-[#fff0e1] p-14 pb-24 px-4 sm:px-12 md:px-20;
 }
 
+.shadow-sharp-sm {
+  box-shadow: 0.1em 0.1em 0 rgba(0, 0, 0, 1);
+}
+
 .shadow-sharp {
   box-shadow: 0.25em 0.25em 0 rgba(0, 0, 0, 1);
 }
@@ -20,6 +24,14 @@
 
 .button-primary {
   @apply shadow-sharp transition-all capitalize py-2 px-4 bg-orange-400 border-2 border-slate-900 text-slate-900 font-medium hover:bg-orange-500 hover:shadow-none focus-within:bg-orange-500 focus-within:shadow-none;
+}
+
+.button-action-edit {
+  @apply shadow-sharp-sm transition-all capitalize p-1.5 rounded bg-amber-400 border-2 border-slate-900 text-slate-900 font-medium hover:bg-amber-500 hover:shadow-none focus-within:bg-amber-500 focus-within:shadow-none text-xl ml-auto;
+}
+
+.button-action-delete {
+  @apply shadow-sharp-sm transition-all capitalize p-1.5 rounded bg-rose-500 border-2 border-slate-900 text-slate-900 font-medium hover:bg-rose-600 hover:shadow-none focus-within:bg-rose-600 focus-within:shadow-none text-xl ml-1;
 }
 
 .input-primary {
@@ -49,6 +61,24 @@
 .notif-leave-active {
   width: 100%;
   position: absolute;
+}
+
+.list-enter-active,
+.list-move,
+.list-leave-active {
+  transition: 0.75s all ease-in-out;
+}
+
+.list-enter-from,
+.list-leave-to {
+  transform: translateX(250%);
+  opacity: 0;
+}
+
+.list-leave-active {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
 }
 
 /* .notif-leave-active {

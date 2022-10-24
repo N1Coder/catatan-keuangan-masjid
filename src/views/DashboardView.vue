@@ -1,10 +1,10 @@
 <script setup>
 import { dateToday } from "../utils/useTime"
 import { ref } from "vue"
-import InfoTransaction from "../components/InfoTransaction.vue"
-import LoadingInfoDashboard from "../components/loading/LoadingInfoDashboard.vue"
-import InfoTransactionToday from "../components/InfoTransactionToday.vue"
 import { handleLogout } from "../utils/useAuth"
+import LoadingInfoDashboard from "../components/loading/LoadingInfoDashboard.vue"
+import InfoTransactionToday from "../components/detail_info/InfoTransactionToday.vue"
+import InfoTransaction from "../components/detail_info/InfoTransaction.vue"
 
 const tambahTransaksi = ref(null)
 </script>

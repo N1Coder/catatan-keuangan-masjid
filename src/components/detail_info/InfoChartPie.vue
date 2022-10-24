@@ -1,10 +1,10 @@
 <script setup>
 import { Icon } from "@iconify/vue"
 import { ref } from "vue"
-import { currency } from "../utils/currency"
-import { getDataByDate } from "../utils/data/getDataByDate"
-import { getWeekDates } from "../utils/useTime"
-import PieChart from "./chart/PieChart.vue"
+import { currency } from "../../utils/currency"
+import { getDataByDate } from "../../utils/data/getDataByDate"
+import { getWeekDates } from "../../utils/useTime"
+import PieChart from "../chart/PieChart.vue"
 
 const jumlahPemasukanMingguIni = ref(0),
   jumlahPengeluaranMingguIni = ref(0)

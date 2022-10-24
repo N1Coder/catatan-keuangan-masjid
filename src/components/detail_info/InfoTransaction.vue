@@ -1,9 +1,12 @@
 <script setup>
 import { Icon } from "@iconify/vue"
 import { computed, ref } from "vue"
-import { currency } from "../utils/currency"
-import { getAllData, getDataToday } from "../utils/useData"
-import { dataPemasukanHariIni, dataPengeluaranHariIni } from "../utils/useData"
+import { currency } from "../../utils/currency"
+import { getAllData, getDataToday } from "../../utils/useData"
+import {
+  dataPemasukanHariIni,
+  dataPengeluaranHariIni,
+} from "../../utils/useData"
 
 const totalPemasukan = ref(0),
   totalPengeluaran = ref(0),

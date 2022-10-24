@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import { currency } from '../utils/currency'
-import { getDataToday } from '../utils/useData'
-import { sortHighToLow } from "../utils/sortHighToLow"
+import { currency } from '../../utils/currency'
+import { getDataToday } from '../../utils/useData'
+import { sortHighToLow } from "../../utils/sortHighToLow"
 
 const dataPemasukanHariIni = ref([]),
       dataPengeluaranHariIni = ref([])

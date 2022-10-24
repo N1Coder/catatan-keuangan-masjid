@@ -1,12 +1,11 @@
 <script setup>
 import { Icon } from "@iconify/vue"
 import { ref } from "vue"
-import { currency } from "../utils/currency"
-import { getAllData } from "../utils/useData"
+import { currency } from "../../utils/currency"
+import { getAllData } from "../../utils/useData"
 
 const jumlahSemuaPemasukan = ref(null),
-  jumlahSemuaPengeluaran = ref(null),
-  timelineTransaksi = ref(null)
+  jumlahSemuaPengeluaran = ref(null)
 
 const dataSemuaPemasukan = ref([])
 const dataSemuaPengeluaran = ref([])
@@ -21,24 +20,6 @@ dataSemuaPemasukan.value.map((pemasukan) => {
 dataSemuaPengeluaran.value.map((pengeluaran) => {
   jumlahSemuaPengeluaran.value += Number(pengeluaran.jumlah)
 })
-
-// const timeline = (e) => {
-//   let time = e.target.value
-
-//   switch (time) {
-//     case "all":
-//       break
-
-//     case "month":
-//       break
-
-//     case "week":
-//       break
-
-//     default:
-//       break
-//   }
-// }
 </script>
 
 <template>
@@ -49,11 +30,6 @@ dataSemuaPengeluaran.value.map((pengeluaran) => {
       <h2 class="capitalize text-xl font-semibold text-white">
         total transaksi
       </h2>
-      <!-- <select @change="timeline" class="input-primary w-fit ml-auto rounded-lg">
-        <option value="all">Semua</option>
-        <option value="month">Bulan Ini</option>
-        <option value="week">Minggu Ini</option>
-      </select> -->
     </div>
 
     <article class="bg-white p-4 rounded-lg">

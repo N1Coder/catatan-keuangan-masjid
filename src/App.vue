@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView } from "vue-router"
-import Notifications from "./components/Notifications.vue"
-import Notif from "./components/Notification.vue"
+import Notifications from "./components/notification/Notifications.vue"
+import Notif from "./components/notification/Notification.vue"
 import Navigation from "./components/Navigation.vue"
 import { userSession, validateUserSession } from "./utils/useAuth"
 import { dataNotif } from "./utils/useData"

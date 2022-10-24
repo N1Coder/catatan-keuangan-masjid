@@ -15,6 +15,8 @@ export const getDataByDate = async (
       .gte(col, startDate)
       .lte(col, endDate)
 
+    if (error) throw error
+
     console.log(data)
     dataArr.value = data
   } catch (err) {

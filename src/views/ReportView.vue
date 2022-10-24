@@ -1,7 +1,7 @@
 <script setup>
 import LoadingInfoReport from "../components/loading/LoadingInfoReport.vue"
-import InfoReport from "../components/InfoReport.vue"
-import InfoCategoryReport from "../components/InfoCategoryReport.vue"
+import InfoReport from "../components/detail_info/InfoReport.vue"
+import InfoCategoryReport from "../components/detail_info/InfoCategoryReport.vue"
 </script>
 
 <template>

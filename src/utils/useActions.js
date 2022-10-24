@@ -1,3 +1,5 @@
 import { insertData } from "./data/insertData"
+import { updateData } from "./data/updateData"
+import { deleteData } from "./data/deleteData"
 
-export { insertData }
+export { insertData, updateData, deleteData }

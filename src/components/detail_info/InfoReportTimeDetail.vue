@@ -2,153 +2,27 @@
 import { Icon } from "@iconify/vue"
 import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { currency } from "../utils/currency"
-import { getDataByDate } from "../utils/data/getDataByDate";
-import { sortHighToLow } from "../utils/sortHighToLow";
-import { daysIndonesian } from "../utils/time/getDay";
-import { monthsIndonesian } from "../utils/time/getMonth";
-import { sortByLatest } from "../utils/time/sortByLatest";
-import { getAllData, getCategories, getDataCategoriesByDate, getAllCategoriesData } from "../utils/useData";
-import { getMonthDates, getWeekDates } from "../utils/useTime";
+import { currency } from "../../utils/currency"
+import { getDataFromParams, dataPemasukan, dataPengeluaran, dataCategoryPemasukan,dataCategoryPengeluaran } from "../../utils/data/getDataFromParams";
+import { daysIndonesian } from "../../utils/time/getDay";
+import { monthsIndonesian } from "../../utils/time/getMonth";
+import { sortByLatest } from "../../utils/time/sortByLatest";
+import { getCategories } from "../../utils/useData";
+import { deleteData, updateData } from "../../utils/useActions"
 
 const route = useRoute()
 
 const totalPemasukan = ref(0),
-      totalPengeluaran = ref(0)
+  totalPengeluaran = ref(0)
 
-
-const dataPemasukan = ref([]),
-  dataPengeluaran = ref([]),
-  dataCategoryPemasukan = ref([]),
-  dataCategoryPengeluaran = ref([]),
-  categoryPemasukan = ref([]),
+const categoryPemasukan = ref([]),
   categoryPengeluaran = ref([])
-
-const [startWeek, endWeek] = getWeekDates(),
-      [startMonth, endMonth] = getMonthDates()
 
 await getCategories("kategori_pemasukan", categoryPemasukan)
 await getCategories("kategori_pengeluaran", categoryPengeluaran)
 
-const getDataFromParams = async () => {
-  switch (route.params.time) {
-    case "week":
-      return {
-        pemasukan: await getDataByDate(
-          "pemasukan",
-          "*",
-          dataPemasukan,
-          "tanggal_pemasukan",
-          startWeek,
-          endWeek
-        ),
-        pengeluaran: await getDataByDate(
-          "pengeluaran",
-          "*",
-          dataPengeluaran,
-          "tanggal_pengeluaran",
-          startWeek,
-          endWeek
-        ),
-        dataCategoryPemasukan: await getDataCategoriesByDate(
-          "pemasukan",
-          "jumlah",
-          "kategori_pemasukan",
-          "*",
-          dataCategoryPemasukan,
-          "tanggal_pemasukan",
-          startWeek,
-          endWeek
-        ),
-        dataCategoryPengeluaran: await getDataCategoriesByDate(
-          "pengeluaran",
-          "jumlah",
-          "kategori_pengeluaran",
-          "*",
-          dataCategoryPengeluaran,
-          "tanggal_pengeluaran",
-          startWeek,
-          endWeek
-        )
-      }
-      break
-
-    case "month":
-      return {
-        pemasukan: await getDataByDate(
-          "pemasukan",
-          "*",
-          dataPemasukan,
-          "tanggal_pemasukan",
-          startMonth,
-          endMonth
-        ),
-        pengeluaran: await getDataByDate(
-          "pengeluaran",
-          "*",
-          dataPengeluaran,
-          "tanggal_pengeluaran",
-          startMonth,
-          endMonth
-        ),
-        dataCategoryPemasukan: await getDataCategoriesByDate(
-          "pemasukan",
-          "jumlah",
-          "kategori_pemasukan",
-          "*",
-          dataCategoryPemasukan,
-          "tanggal_pemasukan",
-          startMonth,
-          endMonth
-        ),
-        dataCategoryPengeluaran: await getDataCategoriesByDate(
-          "pengeluaran",
-          "jumlah",
-          "kategori_pengeluaran",
-          "*",
-          dataCategoryPengeluaran,
-          "tanggal_pengeluaran",
-          startMonth,
-          endMonth
-        )
-      }
-      break
-
-    case "all":
-      return {
-        pemasukan: await getAllData(
-          "pemasukan",
-          dataPemasukan,
-
-        ),
-        pengeluaran: await getAllData(
-          "pengeluaran",
-          dataPengeluaran,
-        ),
-        dataCategoryPemasukan: await getAllCategoriesData(
-          "pemasukan",
-          "*",
-          "kategori_pemasukan",
-          "*",
-          dataCategoryPemasukan,
-        ),
-        dataCategoryPemasukan: await getAllCategoriesData(
-          "pengeluaran",
-          "*",
-          "kategori_pengeluaran",
-          "*",
-          dataCategoryPengeluaran,
-        )
-      }
-      break
-
-    default:
-      console.log("404 Not Found")
-      break
-  }
-}
-
-await getDataFromParams()
+// get data based on url params
+await getDataFromParams(route.params.time)
 
 // for total section
 dataPemasukan.value.map((pemasukan) => {
@@ -185,7 +59,7 @@ const showStatusTime = (params) => {
 // for list transactions
 const dataTransaksi = ref([...dataPemasukan.value, ...dataPengeluaran.value])
 
-// sortHighToLow(dataTransaksi.value)
+// sort data from latest date
 sortByLatest(dataTransaksi.value)
 
 const showStatusTransaksi = () => {
@@ -202,8 +76,8 @@ const showDateTransaksi = (date) => {
 </script>
 
 <template>
-  <article class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-    <h2 class="capitalize text-xl font-bold text-orange-600 mb-6">
+  <article class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <h2 class="capitalize text-2xl font-bold text-orange-600 mb-6">
       laporan keuangan {{ showStatusTime(route.params.time) }}
     </h2>
 
@@ -294,25 +168,61 @@ const showDateTransaksi = (date) => {
     </article>
   </article>
 
-  <article class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+  <article class="relative mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
       <h2 class="capitalize text-orange-600 text-lg font-bold md:col-span-2">
         {{ showStatusTransaksi() }}
       </h2>
 
-      <article v-for="(transaksi, i) in dataTransaksi" :key="i" class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg">
-        <p class="capitalize text-md font-bold" :class="transaksi.id_pengeluaran ? 'text-rose-600' : 'text-emerald-600'" >
+    <transition-group name="list">
+      <article
+        v-for="(transaksi, i) in dataTransaksi"
+        :key="transaksi.id_pengeluaran ?? transaksi.id_pemasukan"
+        class="relative shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
+      >
+        <p
+          :class="transaksi.id_pengeluaran ? 'text-rose-600' : 'text-emerald-600'"
+          class="flex items-center gap-x-1 mb-1 capitalize text-md font-bold"
+        >
+          <Icon icon="bxs:right-arrow" />
           {{ transaksi.id_pengeluaran ? showDateTransaksi(transaksi.tanggal_pengeluaran) : showDateTransaksi(transaksi.tanggal_pemasukan) }}
         </p>
 
-         <div>
-           <p class="text-md font-semibold" :class="transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'" >
-              <p class="capitalize" :class="transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'">
-                {{ transaksi.id_pengeluaran ? transaksi.nama_pengeluaran : transaksi.nama_pemasukan }}
+         <div class="flex items-center">
+           <p
+             :class="transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'"
+             class="text-md font-semibold"
+           >
+              <p
+                :class="transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'"
+                class="capitalize"
+              >
+                {{ transaksi.id_pengeluaran ? transaksi.nama_pengeluaran : transaksi.nama_pemasukan }} 
               </p>
               Rp. {{ currency(transaksi.jumlah) }},00
-            </p>
+           </p>
+
+            <button
+              class="button-action-edit"
+            >
+              <Icon icon="fluent:document-edit-24-filled" />
+            </button>
+
+            <button
+              @click="deleteData(
+                transaksi.id_pengeluaran ? 'pengeluaran' : 'pemasukan',
+                transaksi.id_pengeluaran ? 'id_pengeluaran' : 'id_pemasukan',
+                transaksi.id_pengeluaran ?? transaksi.id_pemasukan,
+                dataTransaksi, 
+                i
+              )"
+              class="button-action-delete"
+            >
+              <Icon icon="fluent:delete-24-filled" />
+            </button>
         </div>
       </article>
+    </transition-group>
+
 
   </article>
 </template>

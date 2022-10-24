@@ -1,6 +1,6 @@
 <script setup>
-import InfoChartBar from "../components/InfoChartBar.vue"
-import InfoChartPie from "../components/InfoChartPie.vue"
+import InfoChartBar from "../components/detail_info/InfoChartBar.vue"
+import InfoChartPie from "../components/detail_info/InfoChartPie.vue"
 import LoadingInfoAnalytics from "../components/loading/LoadingInfoAnalytics.vue"
 </script>
 
