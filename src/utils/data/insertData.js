@@ -18,7 +18,6 @@ export const insertData = async (table, dataInput) => {
       success: true,
       message: "data berhasil ditambahkan",
     })
-    console.log(dataNotif.value)
   } catch (err) {
     console.log(err.message)
     dataNotif.value.push({

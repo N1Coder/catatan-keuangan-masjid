@@ -26,4 +26,5 @@ export const deleteData = async (table, query, queryVal, dataArr, indexArr) => {
       message: err.message,
     })
   }
+  // dataArr.splice(indexArr, 1)
 }

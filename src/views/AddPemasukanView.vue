@@ -2,6 +2,7 @@
 import { Icon } from "@iconify/vue"
 import { onMounted, ref } from "vue"
 import { currency } from "../utils/currency"
+import { dateForQuery } from "../utils/time/handleDate"
 import { insertData } from "../utils/useActions"
 import { getCategories } from "../utils/useData"
 
@@ -9,7 +10,7 @@ const categoriesPemasukan = ref([])
 
 const nameInput = ref(""),
   incomeInput = ref(""),
-  dateInput = ref(""),
+  dateInput = ref(dateForQuery),
   categoriesInput = ref(null)
 
 onMounted(() => {
@@ -84,7 +85,7 @@ const addPemasukan = async () => {
           v-model="nameInput"
           type="text"
           minlength="3"
-          placeholder="Masukkan nama pemasukan / pengeluaran"
+          placeholder="Masukkan nama pemasukan"
           required
         />
       </label>
@@ -98,7 +99,7 @@ const addPemasukan = async () => {
           v-model="incomeInput"
           type="number"
           min="100"
-          placeholder="Masukkan jumlah pemasukan / pengeluaran"
+          placeholder="Masukkan jumlah pemasukan"
           required
         />
 

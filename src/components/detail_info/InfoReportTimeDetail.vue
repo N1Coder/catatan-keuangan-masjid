@@ -1,4 +1,5 @@
 <script setup>
+import Modal from "../Modal.vue"
 import { Icon } from "@iconify/vue"
 import { ref } from "vue";
 import { useRoute } from "vue-router";
@@ -11,6 +12,17 @@ import { getCategories } from "../../utils/useData";
 import { deleteData, updateData } from "../../utils/useActions"
 
 const route = useRoute()
+
+const modalStatus = ref(false)
+
+const nameInput = ref(""),
+      incomeInput = ref(""),
+      dateInput = ref(null),
+      categoriesInput = ref(null),
+      dataCategories = ref([])
+
+const msg = ref(""),
+      id = ref(null)
 
 const totalPemasukan = ref(0),
   totalPengeluaran = ref(0)
@@ -63,7 +75,7 @@ const dataTransaksi = ref([...dataPemasukan.value, ...dataPengeluaran.value])
 sortByLatest(dataTransaksi.value)
 
 const showStatusTransaksi = () => {
-  return 1 > 0
+  return dataTransaksi.value.length > 0
     ? `daftar transaksi ${showStatusTime(route.params.time)}`
     : `tidak ada transaksi untuk ${showStatusTime(route.params.time)}`
 }
@@ -72,6 +84,55 @@ const showDateTransaksi = (date) => {
   const d = new Date(date)
 
   return `${daysIndonesian[d.getDay()]}, ${d.getDate()} ${monthsIndonesian[d.getMonth()]} ${d.getFullYear()}`
+}
+
+const toggleModal = async (i, idStatus, idTransaction, idCategory) => {
+  modalStatus.value = true
+
+  
+  // idTransaction ? await getCategories("kategori_pengeluaran", dataCategories) : await getCategories("kategori_pemasukan", dataCategories)
+  
+  if (i !== undefined) {
+    console.log(idCategory, idTransaction)
+    const showMsg = () => {
+      return idStatus ? msg.value = "pengeluaran" : msg.value = "pemasukan"
+    }
+
+    const showCategory = () => {
+      return idStatus ? dataCategories.value = categoryPengeluaran.value : dataCategories.value = categoryPemasukan.value
+    }
+    
+    showMsg()
+    showCategory()
+
+    id.value = idTransaction
+    
+    dateInput.value = dataTransaksi.value[i].tanggal_pengeluaran ?? dataTransaksi.value[i].tanggal_pemasukan
+    
+    nameInput.value = dataTransaksi.value[i].nama_pengeluaran ?? dataTransaksi.value[i].nama_pemasukan
+    
+    incomeInput.value = dataTransaksi.value[i].jumlah
+
+    categoriesInput.value = idCategory
+  }
+}
+const updatePemasukan = {
+  kategori_pemasukan: categoriesInput.value,
+  nama_pemasukan: nameInput.value,
+  jumlah: incomeInput.value,
+  tanggal_pemasukan: dateInput.value,
+}
+
+const updatePengeluaran = {
+  kategori_pengeluaran: categoriesInput.value,
+  nama_pengeluaran: nameInput.value,
+  jumlah: incomeInput.value,
+  tanggal_pengeluaran: dateInput.value,
+}
+
+
+const closeModal = () => {
+  modalStatus.value = false
 }
 </script>
 
@@ -202,6 +263,12 @@ const showDateTransaksi = (date) => {
            </p>
 
             <button
+              @click="toggleModal(
+                i,
+                transaksi.id_pengeluaran,
+                transaksi.id_pengeluaran ?? transaksi.id_pemasukan, 
+                transaksi.kategori_pengeluaran ?? transaksi.kategori_pemasukan
+              )"
               class="button-action-edit"
             >
               <Icon icon="fluent:document-edit-24-filled" />
@@ -222,7 +289,93 @@ const showDateTransaksi = (date) => {
         </div>
       </article>
     </transition-group>
-
-
   </article>
+
+    <Transition name="modal">
+      <Modal v-if="modalStatus">
+        <div class="p-8 px-6">
+          <button @click="closeModal" class="button-action-delete block w-fit ml-auto">
+            <Icon class="text-white text-2xl" icon="clarity:window-close-line" />
+          </button>
+          
+          <form
+            @submit.prevent="updateData(
+              msg === 'pengeluaran' ? 'pengeluaran' : 'pemasukan',
+              msg === 'pengeluaran' ? {
+                kategori_pengeluaran: categoriesInput,
+                nama_pengeluaran: nameInput,
+                jumlah: incomeInput,
+                tanggal_pengeluaran: dateInput,
+              } : {
+                kategori_pemasukan: categoriesInput,
+                nama_pemasukan: nameInput,
+                jumlah: incomeInput,
+                tanggal_pemasukan: dateInput,
+              },
+              msg === 'pengeluaran' ? 'id_pengeluaran' : 'id_pemasukan',
+              id
+            )"
+            class="flex flex-col gap-4 mt-3 py-9 p-7 bg-white shadow-sharp border-[3px] border-black"
+          >
+          
+            <label>
+              <p class="capitalize text-lg text-orange-500 font-medium">
+                tanggal {{ msg }}
+              </p>
+              <input v-model="dateInput" class="input-primary" type="date" required />
+            </label>
+      
+            <label>
+              <p class="capitalize text-lg text-orange-500 font-medium">
+                kategori {{ msg }}
+              </p>
+      
+              <select v-model="categoriesInput" class="input-primary py-1">
+                <option
+                  v-for="(category, i) in dataCategories"
+                  :key="i"
+                  :value="category.id_kategori"
+                >
+                  {{ category.nama_kategori }}
+                </option>
+              </select>
+            </label>
+      
+            <label>
+              <p class="capitalize text-lg text-orange-500 font-medium">
+                nama {{ msg }}
+              </p>
+              <input
+                v-model="nameInput"
+                class="input-primary"
+                type="text"
+                minlength="3"
+                :placeholder="`Ubah nama ${msg}`"
+                required
+              />
+            </label>
+      
+            <label>
+              <p class="capitalize text-lg text-orange-500 font-medium">
+                jumlah {{ msg }}
+              </p>
+              <input
+                v-model="incomeInput"
+                class="input-primary"
+                type="number"
+                min="100"
+                :placeholder="`Masukkan jumlah ${msg}`"
+                required
+              />
+      
+              <p class="capitalize text-lg text-orange-500 font-medium">
+                Rp. {{ currency(incomeInput) || "0" }},00
+              </p>
+            </label>
+      
+            <input class="button-primary" type="submit" value="Simpan perubahan" />
+          </form>
+        </div>
+      </Modal>
+    </Transition>
 </template>

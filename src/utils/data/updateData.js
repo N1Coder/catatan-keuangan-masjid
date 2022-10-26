@@ -10,7 +10,11 @@ export const updateData = async (table, value, query, queryVal) => {
 
     if (error) throw error
 
-    console.log(data)
+    dataNotif.value.push({
+      id: Math.trunc(Math.random() * 100),
+      success: true,
+      message: "data berhasil diubah",
+    })
   } catch (err) {
     console.log(err.message)
     dataNotif.value.push({

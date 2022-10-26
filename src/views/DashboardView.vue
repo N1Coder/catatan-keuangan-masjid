@@ -1,12 +1,9 @@
 <script setup>
 import { dateToday } from "../utils/useTime"
-import { ref } from "vue"
 import { handleLogout } from "../utils/useAuth"
 import LoadingInfoDashboard from "../components/loading/LoadingInfoDashboard.vue"
 import InfoTransactionToday from "../components/detail_info/InfoTransactionToday.vue"
 import InfoTransaction from "../components/detail_info/InfoTransaction.vue"
-
-const tambahTransaksi = ref(null)
 </script>
 
 <template>
@@ -31,7 +28,6 @@ const tambahTransaksi = ref(null)
     </Suspense>
 
     <RouterLink
-      ref="tambahTransaksi"
       class="inline-block mt-6 button-primary"
       :to="{ name: 'transactions' }"
     >
