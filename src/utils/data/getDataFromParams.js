@@ -7,11 +7,15 @@ import {
   getAllCategoriesData,
 } from "../useData"
 
+const saldoAwal = ref(0),
+  saldoAkhir = ref(0)
+
 // store data
 const dataPemasukan = ref([]),
   dataPengeluaran = ref([]),
   dataCategoryPemasukan = ref([]),
-  dataCategoryPengeluaran = ref([])
+  dataCategoryPengeluaran = ref([]),
+  dataSaldo = ref([])
 
 const [startWeek, endWeek] = getWeekDates(),
   [startMonth, endMonth] = getMonthDates()
@@ -97,6 +101,14 @@ export const getDataFromParams = async (routeParams) => {
           startMonth,
           endMonth
         ),
+        saldo: await getDataByDate(
+          "saldo",
+          "*",
+          dataSaldo,
+          "waktu",
+          startMonth,
+          endMonth
+        ),
       }
       break
 
@@ -137,4 +149,7 @@ export {
   dataPengeluaran,
   dataCategoryPemasukan,
   dataCategoryPengeluaran,
+  dataSaldo,
+  saldoAwal,
+  saldoAkhir,
 }

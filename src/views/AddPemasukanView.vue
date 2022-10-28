@@ -44,7 +44,7 @@ const addPemasukan = async () => {
 </script>
 
 <template>
-  <section>
+  <section class="p-dekstop lg:pr-[45vw]">
     <h1 class="capitalize text-3xl text-orange-500 font-bold">
       tambah pemasukan
     </h1>

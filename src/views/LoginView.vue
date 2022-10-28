@@ -9,9 +9,9 @@ const dataLogin = reactive({
 </script>
 
 <template>
-  <section class="min-h-screen">
+  <section>
     <form
-      class="bg-white flex flex-col rounded mt-24 p-8 px-6 gap-6 text-slate-800"
+      class="bg-white flex flex-col rounded mt-24 p-8 px-6 gap-6 text-slate-800 md:max-w-md md:mx-auto"
       @submit.prevent="handleLogin(dataLogin)"
     >
       <h2 class="text-2xl font-bold">SignIn CaKeMas</h2>

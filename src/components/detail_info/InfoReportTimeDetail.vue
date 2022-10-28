@@ -1,28 +1,39 @@
 <script setup>
 import Modal from "../Modal.vue"
 import { Icon } from "@iconify/vue"
-import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { ref } from "vue"
+import { useRoute } from "vue-router"
 import { currency } from "../../utils/currency"
-import { getDataFromParams, dataPemasukan, dataPengeluaran, dataCategoryPemasukan,dataCategoryPengeluaran } from "../../utils/data/getDataFromParams";
-import { daysIndonesian } from "../../utils/time/getDay";
-import { monthsIndonesian } from "../../utils/time/getMonth";
-import { sortByLatest } from "../../utils/time/sortByLatest";
-import { getCategories } from "../../utils/useData";
+import {
+  getDataFromParams,
+  dataPemasukan,
+  dataPengeluaran,
+  dataCategoryPemasukan,
+  dataCategoryPengeluaran,
+  dataSaldo,
+  saldoAwal,
+  saldoAkhir,
+} from "../../utils/data/getDataFromParams"
+import { daysIndonesian } from "../../utils/time/getDay"
+import { monthsIndonesian } from "../../utils/time/getMonth"
+import { sortByLatest } from "../../utils/time/sortByLatest"
+import { getCategories } from "../../utils/useData"
+import { getDataByDate } from "../../utils/data/getDataByDate"
 import { deleteData, updateData } from "../../utils/useActions"
+import { getMonthDates } from "../../utils/useTime"
 
 const route = useRoute()
 
 const modalStatus = ref(false)
 
 const nameInput = ref(""),
-      incomeInput = ref(""),
-      dateInput = ref(null),
-      categoriesInput = ref(null),
-      dataCategories = ref([])
+  incomeInput = ref(""),
+  dateInput = ref(null),
+  categoriesInput = ref(null),
+  dataCategories = ref([])
 
 const msg = ref(""),
-      id = ref(null)
+  id = ref(null)
 
 const totalPemasukan = ref(0),
   totalPengeluaran = ref(0)
@@ -36,6 +47,9 @@ await getCategories("kategori_pengeluaran", categoryPengeluaran)
 // get data based on url params
 await getDataFromParams(route.params.time)
 
+saldoAwal.value = Number(dataSaldo.value[0]?.jumlah_saldo)
+saldoAkhir.value = Number(dataSaldo.value[0]?.jumlah_saldo)
+
 // for total section
 dataPemasukan.value.map((pemasukan) => {
   totalPemasukan.value += Number(pemasukan.jumlah)
@@ -44,6 +58,9 @@ dataPemasukan.value.map((pemasukan) => {
 dataPengeluaran.value.map((pengeluaran) => {
   totalPengeluaran.value += Number(pengeluaran.jumlah)
 })
+
+saldoAkhir.value += totalPemasukan.value
+saldoAkhir.value -= totalPengeluaran.value
 
 // for category section
 const sumCategoryPemasukan = (nameCategory, data) => {
@@ -62,7 +79,7 @@ const showStatusTime = (params) => {
   if (params === "week") {
     return "minggu ini"
   } else if (params === "month") {
-    return "bulan ini" 
+    return "bulan ini"
   } else {
     return "keseluruhan"
   }
@@ -83,53 +100,44 @@ const showStatusTransaksi = () => {
 const showDateTransaksi = (date) => {
   const d = new Date(date)
 
-  return `${daysIndonesian[d.getDay()]}, ${d.getDate()} ${monthsIndonesian[d.getMonth()]} ${d.getFullYear()}`
+  return `${daysIndonesian[d.getDay()]}, ${d.getDate()} ${
+    monthsIndonesian[d.getMonth()]
+  } ${d.getFullYear()}`
 }
 
 const toggleModal = async (i, idStatus, idTransaction, idCategory) => {
   modalStatus.value = true
 
-  
-  // idTransaction ? await getCategories("kategori_pengeluaran", dataCategories) : await getCategories("kategori_pemasukan", dataCategories)
-  
   if (i !== undefined) {
     console.log(idCategory, idTransaction)
     const showMsg = () => {
-      return idStatus ? msg.value = "pengeluaran" : msg.value = "pemasukan"
+      return idStatus ? (msg.value = "pengeluaran") : (msg.value = "pemasukan")
     }
 
     const showCategory = () => {
-      return idStatus ? dataCategories.value = categoryPengeluaran.value : dataCategories.value = categoryPemasukan.value
+      return idStatus
+        ? (dataCategories.value = categoryPengeluaran.value)
+        : (dataCategories.value = categoryPemasukan.value)
     }
-    
+
     showMsg()
     showCategory()
 
     id.value = idTransaction
-    
-    dateInput.value = dataTransaksi.value[i].tanggal_pengeluaran ?? dataTransaksi.value[i].tanggal_pemasukan
-    
-    nameInput.value = dataTransaksi.value[i].nama_pengeluaran ?? dataTransaksi.value[i].nama_pemasukan
-    
+
+    dateInput.value =
+      dataTransaksi.value[i].tanggal_pengeluaran ??
+      dataTransaksi.value[i].tanggal_pemasukan
+
+    nameInput.value =
+      dataTransaksi.value[i].nama_pengeluaran ??
+      dataTransaksi.value[i].nama_pemasukan
+
     incomeInput.value = dataTransaksi.value[i].jumlah
 
     categoriesInput.value = idCategory
   }
 }
-const updatePemasukan = {
-  kategori_pemasukan: categoriesInput.value,
-  nama_pemasukan: nameInput.value,
-  jumlah: incomeInput.value,
-  tanggal_pemasukan: dateInput.value,
-}
-
-const updatePengeluaran = {
-  kategori_pengeluaran: categoriesInput.value,
-  nama_pengeluaran: nameInput.value,
-  jumlah: incomeInput.value,
-  tanggal_pengeluaran: dateInput.value,
-}
-
 
 const closeModal = () => {
   modalStatus.value = false
@@ -138,17 +146,62 @@ const closeModal = () => {
 
 <template>
   <article class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <h2 class="capitalize text-2xl font-bold text-orange-600 mb-6">
+    <h2
+      class="lg:col-span-2 capitalize text-2xl font-bold text-orange-600 mb-6"
+    >
       laporan keuangan {{ showStatusTime(route.params.time) }}
     </h2>
 
     <article
-      class="shadow-sharp border-[3px] border-black bg-white p-4 md:col-span-2 rounded-lg"
+      class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
+    >
+      <div
+        class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500"
+      >
+        <p class="capitalize">
+          jumlah saldo awal {{ showStatusTime(route.params.time) }}
+        </p>
+        <Icon icon="bi:info-circle-fill" />
+      </div>
+
+      <div>
+        <p class="mt-2 text-md lg:text-lg font-semibold text-slate-700">
+          Rp. {{ currency(saldoAwal) || 0 }},00
+        </p>
+      </div>
+    </article>
+
+    <article
+      class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
+    >
+      <div
+        class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500"
+      >
+        <p class="capitalize">
+          jumlah saldo akhir {{ showStatusTime(route.params.time) }}
+        </p>
+        <Icon icon="bi:info-circle-fill" />
+      </div>
+
+      <div>
+        <p class="mt-2 text-md lg:text-lg font-semibold text-slate-700">
+          Rp.
+          {{
+            saldoAwal === saldoAkhir ? "-" : `${currency(saldoAkhir)},00` || 0
+          }}
+        </p>
+      </div>
+    </article>
+
+    <article
+      class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
     >
       <div
         class="flex items-center justify-between text-lg font-bold text-rose-500"
       >
-        <p class="capitalize">jumlah pengeluaran {{ showStatusTime(route.params.time) }}</p>
+        <p class="capitalize">
+          jumlah pengeluaran {{ showStatusTime(route.params.time) }}
+        </p>
         <Icon icon="bi:arrow-up-square-fill" />
       </div>
 
@@ -160,12 +213,14 @@ const closeModal = () => {
     </article>
 
     <article
-      class="shadow-sharp border-[3px] border-black bg-white p-4 md:col-span-2 rounded-lg"
+      class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
     >
       <div
         class="flex items-center justify-between text-lg font-bold text-emerald-500"
       >
-        <p class="capitalize">jumlah pemasukan {{ showStatusTime(route.params.time) }}</p>
+        <p class="capitalize">
+          jumlah pemasukan {{ showStatusTime(route.params.time) }}
+        </p>
         <Icon icon="bi:arrow-down-square-fill" />
       </div>
 
@@ -178,9 +233,9 @@ const closeModal = () => {
   </article>
 
   <article
-    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-rose-700 mt-10 p-4 gap-4"
+    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 lg:grid-cols-2 bg-rose-700 mt-10 p-4 gap-4"
   >
-    <h2 class="capitalize text-xl font-semibold text-white">
+    <h2 class="lg:col-span-2 capitalize text-xl font-semibold text-white">
       laporan kategori {{ showStatusTime(route.params.time) }}
     </h2>
 
@@ -201,7 +256,9 @@ const closeModal = () => {
 
         <p class="mt-2 text-sm text-rose-700 font-semibold">
           Rp.
-          {{ currency(sumCategoryPengeluaran(i + 1, dataCategoryPengeluaran)) }},00
+          {{
+            currency(sumCategoryPengeluaran(i + 1, dataCategoryPengeluaran))
+          }},00
         </p>
       </div>
     </article>
@@ -230,9 +287,9 @@ const closeModal = () => {
   </article>
 
   <article class="relative mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-      <h2 class="capitalize text-orange-600 text-lg font-bold md:col-span-2">
-        {{ showStatusTransaksi() }}
-      </h2>
+    <h2 class="capitalize text-orange-600 text-lg font-bold md:col-span-2">
+      {{ showStatusTransaksi() }}
+    </h2>
 
     <transition-group name="list">
       <article
@@ -241,141 +298,174 @@ const closeModal = () => {
         class="relative shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
       >
         <p
-          :class="transaksi.id_pengeluaran ? 'text-rose-600' : 'text-emerald-600'"
+          :class="
+            transaksi.id_pengeluaran ? 'text-rose-600' : 'text-emerald-600'
+          "
           class="flex items-center gap-x-1 mb-1 capitalize text-md font-bold"
         >
           <Icon icon="bxs:right-arrow" />
-          {{ transaksi.id_pengeluaran ? showDateTransaksi(transaksi.tanggal_pengeluaran) : showDateTransaksi(transaksi.tanggal_pemasukan) }}
+          {{
+            transaksi.id_pengeluaran
+              ? showDateTransaksi(transaksi.tanggal_pengeluaran)
+              : showDateTransaksi(transaksi.tanggal_pemasukan)
+          }}
         </p>
 
-         <div class="flex items-center">
-           <p
-             :class="transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'"
-             class="text-md font-semibold"
-           >
-              <p
-                :class="transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'"
-                class="capitalize"
-              >
-                {{ transaksi.id_pengeluaran ? transaksi.nama_pengeluaran : transaksi.nama_pemasukan }} 
-              </p>
-              Rp. {{ currency(transaksi.jumlah) }},00
-           </p>
+        <div class="flex items-center">
+          <div
+            :class="
+              transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'
+            "
+            class="text-md font-semibold"
+          >
+            <p
+              :class="
+                transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'
+              "
+              class="capitalize"
+            >
+              {{
+                transaksi.id_pengeluaran
+                  ? transaksi.nama_pengeluaran
+                  : transaksi.nama_pemasukan
+              }}
+            </p>
+            Rp. {{ currency(transaksi.jumlah) }},00
+          </div>
 
-            <button
-              @click="toggleModal(
+          <button
+            @click="
+              toggleModal(
                 i,
                 transaksi.id_pengeluaran,
-                transaksi.id_pengeluaran ?? transaksi.id_pemasukan, 
+                transaksi.id_pengeluaran ?? transaksi.id_pemasukan,
                 transaksi.kategori_pengeluaran ?? transaksi.kategori_pemasukan
-              )"
-              class="button-action-edit"
-            >
-              <Icon icon="fluent:document-edit-24-filled" />
-            </button>
+              )
+            "
+            class="button-action-edit"
+          >
+            <Icon icon="fluent:document-edit-24-filled" />
+          </button>
 
-            <button
-              @click="deleteData(
+          <button
+            @click="
+              deleteData(
                 transaksi.id_pengeluaran ? 'pengeluaran' : 'pemasukan',
                 transaksi.id_pengeluaran ? 'id_pengeluaran' : 'id_pemasukan',
                 transaksi.id_pengeluaran ?? transaksi.id_pemasukan,
-                dataTransaksi, 
+                dataTransaksi,
                 i
-              )"
-              class="button-action-delete"
-            >
-              <Icon icon="fluent:delete-24-filled" />
-            </button>
+              )
+            "
+            class="button-action-delete"
+          >
+            <Icon icon="fluent:delete-24-filled" />
+          </button>
         </div>
       </article>
     </transition-group>
   </article>
 
-    <Transition name="modal">
-      <Modal v-if="modalStatus">
-        <div class="p-8 px-6">
-          <button @click="closeModal" class="button-action-delete block w-fit ml-auto">
-            <Icon class="text-white text-2xl" icon="clarity:window-close-line" />
-          </button>
-          
-          <form
-            @submit.prevent="updateData(
+  <Transition name="modal">
+    <Modal @close="closeModal" v-if="modalStatus">
+      <div class="p-8 px-6 lg:max-w-md lg:mx-auto">
+        <button
+          @click="closeModal"
+          class="button-action-delete block w-fit ml-auto"
+        >
+          <Icon class="text-white text-2xl" icon="clarity:window-close-line" />
+        </button>
+
+        <form
+          @submit.prevent="
+            updateData(
               msg === 'pengeluaran' ? 'pengeluaran' : 'pemasukan',
-              msg === 'pengeluaran' ? {
-                kategori_pengeluaran: categoriesInput,
-                nama_pengeluaran: nameInput,
-                jumlah: incomeInput,
-                tanggal_pengeluaran: dateInput,
-              } : {
-                kategori_pemasukan: categoriesInput,
-                nama_pemasukan: nameInput,
-                jumlah: incomeInput,
-                tanggal_pemasukan: dateInput,
-              },
+              msg === 'pengeluaran'
+                ? {
+                    kategori_pengeluaran: categoriesInput,
+                    nama_pengeluaran: nameInput,
+                    jumlah: incomeInput,
+                    tanggal_pengeluaran: dateInput,
+                  }
+                : {
+                    kategori_pemasukan: categoriesInput,
+                    nama_pemasukan: nameInput,
+                    jumlah: incomeInput,
+                    tanggal_pemasukan: dateInput,
+                  },
               msg === 'pengeluaran' ? 'id_pengeluaran' : 'id_pemasukan',
               id
-            )"
-            class="flex flex-col gap-4 mt-3 py-9 p-7 bg-white shadow-sharp border-[3px] border-black"
-          >
-          
-            <label>
-              <p class="capitalize text-lg text-orange-500 font-medium">
-                tanggal {{ msg }}
-              </p>
-              <input v-model="dateInput" class="input-primary" type="date" required />
-            </label>
-      
-            <label>
-              <p class="capitalize text-lg text-orange-500 font-medium">
-                kategori {{ msg }}
-              </p>
-      
-              <select v-model="categoriesInput" class="input-primary py-1">
-                <option
-                  v-for="(category, i) in dataCategories"
-                  :key="i"
-                  :value="category.id_kategori"
-                >
-                  {{ category.nama_kategori }}
-                </option>
-              </select>
-            </label>
-      
-            <label>
-              <p class="capitalize text-lg text-orange-500 font-medium">
-                nama {{ msg }}
-              </p>
-              <input
-                v-model="nameInput"
-                class="input-primary"
-                type="text"
-                minlength="3"
-                :placeholder="`Ubah nama ${msg}`"
-                required
-              />
-            </label>
-      
-            <label>
-              <p class="capitalize text-lg text-orange-500 font-medium">
-                jumlah {{ msg }}
-              </p>
-              <input
-                v-model="incomeInput"
-                class="input-primary"
-                type="number"
-                min="100"
-                :placeholder="`Masukkan jumlah ${msg}`"
-                required
-              />
-      
-              <p class="capitalize text-lg text-orange-500 font-medium">
-                Rp. {{ currency(incomeInput) || "0" }},00
-              </p>
-            </label>
-      
-            <input class="button-primary" type="submit" value="Simpan perubahan" />
-          </form>
-        </div>
-      </Modal>
-    </Transition>
+            )
+          "
+          class="flex flex-col gap-4 mt-3 py-9 p-7 bg-white shadow-sharp border-[3px] border-black"
+        >
+          <label>
+            <p class="capitalize text-lg text-orange-500 font-medium">
+              tanggal {{ msg }}
+            </p>
+            <input
+              v-model="dateInput"
+              class="input-primary"
+              type="date"
+              required
+            />
+          </label>
+
+          <label>
+            <p class="capitalize text-lg text-orange-500 font-medium">
+              kategori {{ msg }}
+            </p>
+
+            <select v-model="categoriesInput" class="input-primary py-1">
+              <option
+                v-for="(category, i) in dataCategories"
+                :key="i"
+                :value="category.id_kategori"
+              >
+                {{ category.nama_kategori }}
+              </option>
+            </select>
+          </label>
+
+          <label>
+            <p class="capitalize text-lg text-orange-500 font-medium">
+              nama {{ msg }}
+            </p>
+            <input
+              v-model="nameInput"
+              class="input-primary"
+              type="text"
+              minlength="3"
+              :placeholder="`Ubah nama ${msg}`"
+              required
+            />
+          </label>
+
+          <label>
+            <p class="capitalize text-lg text-orange-500 font-medium">
+              jumlah {{ msg }}
+            </p>
+            <input
+              v-model="incomeInput"
+              class="input-primary"
+              type="number"
+              min="100"
+              :placeholder="`Masukkan jumlah ${msg}`"
+              required
+            />
+
+            <p class="capitalize text-lg text-orange-500 font-medium">
+              Rp. {{ currency(incomeInput) || "0" }},00
+            </p>
+          </label>
+
+          <input
+            class="button-primary"
+            type="submit"
+            value="Simpan perubahan"
+          />
+        </form>
+      </div>
+    </Modal>
+  </Transition>
 </template>

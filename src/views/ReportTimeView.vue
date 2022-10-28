@@ -6,21 +6,23 @@ import LoadingInfoReportDetail from "../components/loading/LoadingInfoReportDeta
 </script>
 
 <template>
-  <Suspense>
-    <template #default>
-      <ReportTimeDetail />
-    </template>
+  <section class="p-dekstop">
+    <Suspense>
+      <template #default>
+        <ReportTimeDetail />
+      </template>
 
-    <template #fallback>
-      <LoadingInfoReportDetail />
-    </template>
-  </Suspense>
+      <template #fallback>
+        <LoadingInfoReportDetail />
+      </template>
+    </Suspense>
 
-  <RouterLink
-    class="flex items-center w-fit mt-8 button-primary"
-    :to="{ name: 'report' }"
-  >
-    <Icon icon="ic:baseline-arrow-back-ios-new" />
-    <p>kembali</p>
-  </RouterLink>
+    <RouterLink
+      class="flex items-center w-fit mt-8 button-primary"
+      :to="{ name: 'report' }"
+    >
+      <Icon icon="ic:baseline-arrow-back-ios-new" />
+      <p>kembali</p>
+    </RouterLink>
+  </section>
 </template>

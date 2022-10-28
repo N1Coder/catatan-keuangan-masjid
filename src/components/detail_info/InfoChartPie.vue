@@ -55,7 +55,7 @@ const dataPieWeek = ref([
 
 <template>
   <article
-    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-slate-800 p-4 gap-4"
+    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-slate-800 p-4 gap-4 lg:row-span-2"
   >
     <h2 class="capitalize text-xl font-semibold text-white">
       perbandingan jumlah transaksi minggu ini

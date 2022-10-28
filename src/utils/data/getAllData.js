@@ -8,6 +8,7 @@ export const getAllData = async (table, dataArr) => {
     if (error) throw error
 
     dataArr.value = data
+    console.log(data)
   } catch (err) {
     dataNotif.value.push({
       id: Math.trunc(Math.random() * 100),

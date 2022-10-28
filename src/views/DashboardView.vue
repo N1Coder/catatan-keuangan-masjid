@@ -7,7 +7,7 @@ import InfoTransaction from "../components/detail_info/InfoTransaction.vue"
 </script>
 
 <template>
-  <section>
+  <section class="p-dekstop">
     <header>
       <h1 class="capitalize text-xl md:text-2xl text-orange-600 font-bold">
         overview keuangan masjid Al-Fadhilah
@@ -23,7 +23,7 @@ import InfoTransaction from "../components/detail_info/InfoTransaction.vue"
       </template>
 
       <template #fallback>
-        <LoadingInfoDashboard :count="3" />
+        <LoadingInfoDashboard :count="3" :colspan="true" />
       </template>
     </Suspense>
 
@@ -44,7 +44,7 @@ import InfoTransaction from "../components/detail_info/InfoTransaction.vue"
       </template>
 
       <template #fallback>
-        <LoadingInfoDashboard :count="4" />
+        <LoadingInfoDashboard :count="4" :colspan="false" />
       </template>
     </Suspense>
   </section>

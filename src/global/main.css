@@ -22,6 +22,10 @@
   box-shadow: 0.5em 0.5em 0 rgba(0, 0, 0, 1);
 }
 
+.p-dekstop {
+  @apply lg:pl-[18vw] lg:pr-[10vw];
+}
+
 .button-primary {
   @apply shadow-sharp transition-all capitalize py-2 px-4 bg-orange-400 border-2 border-slate-900 text-slate-900 font-medium hover:bg-orange-500 hover:shadow-none focus-within:bg-orange-500 focus-within:shadow-none;
 }
@@ -79,6 +83,15 @@
   position: absolute !important;
   left: 0 !important;
   right: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .list-enter-from,
+  .list-leave-to {
+    transform: translateX(0);
+    width: 466px;
+    opacity: 0;
+  }
 }
 
 .bg-enter-active,

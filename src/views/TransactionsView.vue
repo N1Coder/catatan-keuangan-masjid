@@ -3,14 +3,14 @@ import { Icon } from "@iconify/vue"
 </script>
 
 <template>
-  <section>
+  <section class="p-dekstop">
     <header>
-      <h1 class="capitalize text-xl font-bold text-orange-600 mb-6">
+      <h1 class="capitalize text-xl lg:text-3xl font-bold text-orange-600 mb-6">
         tambah transaksi keuangan
       </h1>
     </header>
 
-    <article class="grid grid-cols-1 gap-4">
+    <article class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <RouterLink
         :to="{ name: 'addpemasukan' }"
         class="button-primary flex items-center justify-between"
