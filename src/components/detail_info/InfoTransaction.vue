@@ -1,9 +1,11 @@
 <script setup>
 import { Icon } from "@iconify/vue"
-import { computed, ref } from "vue"
+import { computed, onMounted, ref } from "vue"
 import { currency } from "../../utils/currency"
 import { saldoAkhir } from "../../utils/data/getDataFromParams"
 import { getSaldoYesterday } from "../../utils/data/getDataYesterday"
+import { dateForQuery } from "../../utils/time/handleDate"
+import { upsertData } from "../../utils/useActions"
 import { getAllData, getDataToday } from "../../utils/useData"
 import {
   dataPemasukanHariIni,
@@ -46,6 +48,38 @@ await getDataToday(
 )
 
 await getSaldoYesterday("saldo", "jumlah_saldo", "waktu", dataSaldo)
+
+const checkSaldo = async () => {
+  const dataSaldo = ref([]),
+    dataSaldoAwal = ref([])
+
+  const saldoKemarin = await getSaldoYesterday(
+    "saldo",
+    "jumlah_saldo",
+    "waktu",
+    dataSaldoAwal
+  )
+  const saldoHariIni = await getDataToday(
+    "saldo",
+    "jumlah_saldo",
+    "waktu",
+    dataSaldo
+  )
+
+  if (dataSaldo.value.length === 0) {
+    return await upsertData("saldo", {
+      jenis_saldo: 1,
+      jumlah_saldo: "2500000",
+      waktu: dateForQuery,
+    })
+  } else {
+    return
+  }
+}
+
+onMounted(() => {
+  checkSaldo()
+})
 
 saldoAwalHariIni.value = Number(dataSaldo.value)
 saldoAkhirHariIni.value = Number(dataSaldo.value)
