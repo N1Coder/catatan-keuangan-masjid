@@ -23,7 +23,7 @@ import InfoTransaction from "../components/detail_info/InfoTransaction.vue"
       </template>
 
       <template #fallback>
-        <LoadingInfoDashboard :count="3" :colspan="true" />
+        <LoadingInfoDashboard :count="4" />
       </template>
     </Suspense>
 

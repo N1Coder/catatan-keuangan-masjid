@@ -4,7 +4,7 @@ import LoadingInfoReport from "./LoadingInfoReport.vue"
 </script>
 
 <template>
-  <LoadingInfoDashboard :count="2" />
+  <LoadingInfoDashboard :count="4" />
 
   <LoadingInfoReport class="mt-8" :background="'bg-rose-700'">
     <div

@@ -8,5 +8,6 @@ const year = date.getFullYear()
 
 const dateToday = `${day} ${date.getDate()} ${month} ${year}`
 const dateForQuery = `${year}-${date.getMonth() + 1}-${date.getDate()}`
+const dateYesterday = `${year}-${date.getMonth() + 1}-${date.getDate() - 1}`
 
-export { dateToday, dateForQuery }
+export { dateToday, dateForQuery, dateYesterday }

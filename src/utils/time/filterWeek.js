@@ -19,6 +19,16 @@ export const getWeekDates = () => {
   return [startWeek, endWeek]
 }
 
+export const getLastWeekDates = () => {
+  const d = new Date()
+  const to = d.setTime(
+    d.getTime() - (d.getDay() ? d.getDay() : 7) * 24 * 60 * 60 * 1000
+  )
+  const from = d.setTime(d.getTime() - 6 * 24 * 60 * 60 * 1000)
+
+  return [to, from]
+}
+
 // saved for later
 // const getWeekDates = (inputDate) => {
 //   const now = new Date(inputDate)

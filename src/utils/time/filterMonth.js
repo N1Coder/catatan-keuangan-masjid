@@ -10,3 +10,17 @@ export const getMonthDates = () => {
 
   return [startMonth, endMonth]
 }
+
+export const getLastMonthDates = () => {
+  const d = new Date()
+  // const to = d.setTime(
+  //   d.getTime() - (d.getDay() ? d.getDay() : 30) * 24 * 60 * 60 * 1000
+  // )
+  // const from = d.setTime(d.getTime() - 6 * 24 * 60 * 60 * 1000)
+  const currentYear = d.getFullYear()
+  const currentMonth = d.getMonth()
+
+  const lastDayOfMonth = new Date(currentYear, currentMonth, 0)
+
+  return lastDayOfMonth
+}

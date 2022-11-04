@@ -2,6 +2,8 @@
 import { Icon } from "@iconify/vue"
 import { computed, ref } from "vue"
 import { currency } from "../../utils/currency"
+import { saldoAkhir } from "../../utils/data/getDataFromParams"
+import { getSaldoYesterday } from "../../utils/data/getDataYesterday"
 import { getAllData, getDataToday } from "../../utils/useData"
 import {
   dataPemasukanHariIni,
@@ -11,10 +13,13 @@ import {
 const totalPemasukan = ref(0),
   totalPengeluaran = ref(0),
   jumlahSemuaPemasukan = ref(0),
-  jumlahSemuaPengeluaran = ref(0)
+  jumlahSemuaPengeluaran = ref(0),
+  saldoAwalHariIni = ref(0),
+  saldoAkhirHariIni = ref(0)
 
 const dataSemuaPemasukan = ref([]),
-  dataSemuaPengeluaran = ref([])
+  dataSemuaPengeluaran = ref([]),
+  dataSaldo = ref([])
 
 await getAllData("pemasukan", dataSemuaPemasukan)
 await getAllData("pengeluaran", dataSemuaPengeluaran)
@@ -40,7 +45,10 @@ await getDataToday(
   dataPengeluaranHariIni
 )
 
-console.log(dataPemasukanHariIni.value)
+await getSaldoYesterday("saldo", "jumlah_saldo", "waktu", dataSaldo)
+
+saldoAwalHariIni.value = Number(dataSaldo.value)
+saldoAkhirHariIni.value = Number(dataSaldo.value)
 
 dataPemasukanHariIni.value.map((pemasukan) => {
   totalPemasukan.value += Number(pemasukan.jumlah)
@@ -50,9 +58,8 @@ dataPengeluaranHariIni.value.map((pengeluaran) => {
   totalPengeluaran.value += Number(pengeluaran.jumlah)
 })
 
-const saldoSaatIni = computed(() => {
-  return jumlahSemuaPemasukan.value - jumlahSemuaPengeluaran.value
-})
+saldoAkhirHariIni.value -= totalPengeluaran.value
+saldoAkhirHariIni.value += totalPemasukan.value
 </script>
 
 <template>
@@ -69,7 +76,7 @@ const saldoSaatIni = computed(() => {
 
       <div>
         <p class="mt-2 text-md lg:text-lg font-semibold text-slate-700">
-          Rp. {{ currency(saldoSaatIni) || 0 }},00
+          Rp. {{ currency(saldoAwalHariIni) || 0 }},00
         </p>
       </div>
     </article>
@@ -88,9 +95,9 @@ const saldoSaatIni = computed(() => {
         <p class="mt-2 text-md lg:text-lg font-semibold text-slate-700">
           Rp.
           {{
-            saldoSaatIni === saldoSaatIni
+            saldoAwalHariIni === saldoAkhirHariIni
               ? "-"
-              : `${currency(saldoSaatIni)},00` || 0
+              : `${currency(saldoAkhirHariIni)},00` || 0
           }}
         </p>
       </div>
