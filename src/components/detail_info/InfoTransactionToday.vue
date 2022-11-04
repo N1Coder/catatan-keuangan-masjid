@@ -32,7 +32,7 @@ sortHighToLow(dataTransaksiHariIni.value)
 
 <template>
     <article class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-      <h2 class="capitalize text-orange-600 text-lg lg:text-xl font-bold md:col-span-2">
+      <h2 class="first-letter:capitalize text-orange-600 text-lg lg:text-xl font-bold md:col-span-2">
         {{ showStatusTransaksi() }}
       </h2>
 

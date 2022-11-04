@@ -30,7 +30,7 @@ const iconStatus = computed(() => {
 <template>
   <div class="toast-notif" :class="colorStatus(status)">
     <Icon class="text-3xl" :icon="iconStatus(status)" />
-    <p class="capitalize text-sm font-medium">
+    <p class="first-letter:capitalize text-sm font-medium flex-grow">
       {{ message }}
     </p>
     <Icon

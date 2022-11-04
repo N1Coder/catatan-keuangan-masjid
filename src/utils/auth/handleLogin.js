@@ -31,14 +31,15 @@ export const handleLogin = async (credentials) => {
 
     console.log(userSession.value)
 
-    dataNotif.value.push({
-      id: Math.trunc(Math.random() * 100),
-      success: true,
-      message: `Selamat datang ${showUsername(
-        userSession.value.currentSession
-      )}`,
+    router.push({ name: "dashboard" }).then(() => {
+      dataNotif.value.push({
+        id: Math.trunc(Math.random() * 100),
+        success: true,
+        message: `Selamat datang ${showUsername(
+          userSession.value.currentSession
+        )}`,
+      })
     })
-    router.push({ name: "dashboard" })
   } catch (error) {
     console.error("Error thrown:", error.message)
     dataNotif.value.push({
