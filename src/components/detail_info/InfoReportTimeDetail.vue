@@ -10,14 +10,15 @@ import {
   dataPengeluaran,
   dataCategoryPemasukan,
   dataCategoryPengeluaran,
-  dataSaldo,
+  dataSaldoAwal,
+  dataSaldoAkhir,
   saldoAwal,
   saldoAkhir,
 } from "../../utils/data/getDataFromParams"
 import { daysIndonesian } from "../../utils/time/getDay"
 import { monthsIndonesian } from "../../utils/time/getMonth"
 import { sortByLatest } from "../../utils/time/sortByLatest"
-import { getCategories } from "../../utils/useData"
+import { dataNotif, getCategories } from "../../utils/useData"
 import { getDataByDate } from "../../utils/data/getDataByDate"
 import { deleteData, updateData } from "../../utils/useActions"
 import { getMonthDates } from "../../utils/useTime"
@@ -47,8 +48,8 @@ await getCategories("kategori_pengeluaran", categoryPengeluaran)
 // get data based on url params
 await getDataFromParams(route.params.time)
 
-saldoAwal.value = Number(dataSaldo.value[0]?.jumlah_saldo)
-saldoAkhir.value = Number(dataSaldo.value[0]?.jumlah_saldo)
+saldoAwal.value = Number(dataSaldoAwal.value)
+saldoAkhir.value = Number(dataSaldoAkhir.value)
 
 // for total section
 dataPemasukan.value.map((pemasukan) => {
@@ -59,8 +60,8 @@ dataPengeluaran.value.map((pengeluaran) => {
   totalPengeluaran.value += Number(pengeluaran.jumlah)
 })
 
-saldoAkhir.value += totalPemasukan.value
-saldoAkhir.value -= totalPengeluaran.value
+// saldoAkhir.value += totalPemasukan.value
+// saldoAkhir.value -= totalPengeluaran.value
 
 // for category section
 const sumCategoryPemasukan = (nameCategory, data) => {
@@ -136,6 +137,42 @@ const toggleModal = async (i, idStatus, idTransaction, idCategory) => {
     incomeInput.value = dataTransaksi.value[i].jumlah
 
     categoriesInput.value = idCategory
+  }
+}
+
+const updateDataModal = async () => {
+  try {
+    await updateData(
+      msg.value === "pengeluaran" ? "pengeluaran" : "pemasukan",
+      msg.value === "pengeluaran"
+        ? {
+            kategori_pengeluaran: categoriesInput.value,
+            nama_pengeluaran: nameInput.value,
+            jumlah: incomeInput.value,
+            tanggal_pengeluaran: dateInput.value,
+          }
+        : {
+            kategori_pemasukan: categoriesInput.value,
+            nama_pemasukan: nameInput.value,
+            jumlah: incomeInput.value,
+            tanggal_pemasukan: dateInput.value,
+          },
+      msg.value === "pengeluaran" ? "id_pengeluaran" : "id_pemasukan",
+      id.value
+    )
+
+    dataNotif.value.push({
+      id: Math.trunc(Math.random() * 100),
+      success: true,
+      message: "data berhasil diubah",
+    })
+  } catch (err) {
+    console.log(err.message)
+    dataNotif.value.push({
+      id: Math.trunc(Math.random() * 100),
+      success: false,
+      message: err.message,
+    })
   }
 }
 
@@ -377,26 +414,7 @@ const closeModal = () => {
         </button>
 
         <form
-          @submit.prevent="
-            updateData(
-              msg === 'pengeluaran' ? 'pengeluaran' : 'pemasukan',
-              msg === 'pengeluaran'
-                ? {
-                    kategori_pengeluaran: categoriesInput,
-                    nama_pengeluaran: nameInput,
-                    jumlah: incomeInput,
-                    tanggal_pengeluaran: dateInput,
-                  }
-                : {
-                    kategori_pemasukan: categoriesInput,
-                    nama_pemasukan: nameInput,
-                    jumlah: incomeInput,
-                    tanggal_pemasukan: dateInput,
-                  },
-              msg === 'pengeluaran' ? 'id_pengeluaran' : 'id_pemasukan',
-              id
-            )
-          "
+          @submit.prevent="updateDataModal"
           class="flex flex-col gap-4 mt-3 py-9 p-7 bg-white shadow-sharp border-[3px] border-black"
         >
           <label>

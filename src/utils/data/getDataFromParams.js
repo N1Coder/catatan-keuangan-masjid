@@ -1,11 +1,19 @@
 import { ref } from "vue"
-import { getWeekDates, getMonthDates } from "../useTime"
+import {
+  getWeekDates,
+  getMonthDates,
+  getLastMonthDates,
+  getLastWeekDates,
+} from "../useTime"
 import { getDataByDate } from "../data/getDataByDate"
 import {
   getAllData,
   getDataCategoriesByDate,
   getAllCategoriesData,
+  dataNotif,
 } from "../useData"
+import { getSaldo } from "../data/getDataSaldo"
+import { dateForQuery } from "../time/handleDate"
 
 const saldoAwal = ref(0),
   saldoAkhir = ref(0)
@@ -15,10 +23,26 @@ const dataPemasukan = ref([]),
   dataPengeluaran = ref([]),
   dataCategoryPemasukan = ref([]),
   dataCategoryPengeluaran = ref([]),
-  dataSaldo = ref([])
+  dataSaldoAwal = ref([]),
+  dataSaldoAkhir = ref([])
 
+// get range week / month
 const [startWeek, endWeek] = getWeekDates(),
   [startMonth, endMonth] = getMonthDates()
+
+// get last day of week / month
+const lastDayOfWeek = getLastWeekDates(),
+  lastDayOfMonth = getLastMonthDates()
+
+const dateWeek = new Date(lastDayOfWeek),
+  dateMonth = new Date(lastDayOfMonth)
+
+const formattedLastDateWeek = `${dateWeek.getFullYear()}-${
+    dateWeek.getMonth() + 1
+  }-${dateWeek.getDate()}`,
+  formattedLastDateMonth = `${dateMonth.getFullYear()}-${
+    dateMonth.getMonth() + 1
+  }-${dateMonth.getDate()}`
 
 export const getDataFromParams = async (routeParams) => {
   switch (routeParams) {
@@ -59,6 +83,20 @@ export const getDataFromParams = async (routeParams) => {
           "tanggal_pengeluaran",
           startWeek,
           endWeek
+        ),
+        saldoAwalMinggu: await getSaldo(
+          "saldo",
+          "jumlah_saldo",
+          "waktu",
+          dataSaldoAwal,
+          formattedLastDateWeek
+        ),
+        saldoAkhirMinggu: await getSaldo(
+          "saldo",
+          "jumlah_saldo",
+          "waktu",
+          dataSaldoAkhir,
+          dateForQuery
         ),
       }
       break
@@ -101,13 +139,19 @@ export const getDataFromParams = async (routeParams) => {
           startMonth,
           endMonth
         ),
-        saldo: await getDataByDate(
+        saldoAwalBulan: await getSaldo(
           "saldo",
-          "*",
-          dataSaldo,
+          "jumlah_saldo",
           "waktu",
-          startMonth,
-          endMonth
+          dataSaldoAwal,
+          formattedLastDateMonth
+        ),
+        saldoAkhirBulan: await getSaldo(
+          "saldo",
+          "jumlah_saldo",
+          "waktu",
+          dataSaldoAkhir,
+          dateForQuery
         ),
       }
       break
@@ -149,7 +193,8 @@ export {
   dataPengeluaran,
   dataCategoryPemasukan,
   dataCategoryPengeluaran,
-  dataSaldo,
+  dataSaldoAwal,
+  dataSaldoAkhir,
   saldoAwal,
   saldoAkhir,
 }

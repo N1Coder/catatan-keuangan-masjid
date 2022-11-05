@@ -26,7 +26,7 @@ export const getLastWeekDates = () => {
   )
   const from = d.setTime(d.getTime() - 6 * 24 * 60 * 60 * 1000)
 
-  return [to, from]
+  return to
 }
 
 // saved for later
