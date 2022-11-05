@@ -1,13 +1,12 @@
 import { supabase } from "../../global/supabase"
-import { dateYesterday } from "../time/handleDate"
 import { dataNotif } from "./dataForNotif"
 
-export const getSaldoYesterday = async (table, query, col, dataVal) => {
+export const getSaldo = async (table, query, col, dataVal, time) => {
   try {
     const { data, error } = await supabase
       .from(table)
       .select(query)
-      .eq(col, dateYesterday)
+      .eq(col, time)
 
     console.log(data)
 

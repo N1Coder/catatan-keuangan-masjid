@@ -2,8 +2,9 @@
 import { Icon } from "@iconify/vue"
 import { onMounted, ref } from "vue"
 import { currency } from "../utils/currency"
+import { getSaldo } from "../utils/data/getDataSaldo"
 import { dateForQuery } from "../utils/time/handleDate"
-import { insertData } from "../utils/useActions"
+import { insertData, updateData } from "../utils/useActions"
 import { getCategories } from "../utils/useData"
 
 const categoriesPemasukan = ref([])
@@ -13,8 +14,12 @@ const nameInput = ref(""),
   dateInput = ref(dateForQuery),
   categoriesInput = ref(null)
 
-onMounted(() => {
-  getCategories("kategori_pemasukan", categoriesPemasukan)
+const saldoAkhir = ref(0)
+
+onMounted(async () => {
+  await getCategories("kategori_pemasukan", categoriesPemasukan)
+
+  await getSaldo("saldo", "jumlah_saldo", "waktu", saldoAkhir, dateForQuery)
 })
 
 const addPemasukan = async () => {
@@ -29,6 +34,19 @@ const addPemasukan = async () => {
       jumlah: incomeInput.value,
       tanggal_pemasukan: dateInput.value,
     })
+
+    if (dateInput.value === dateForQuery) {
+      saldoAkhir.value += incomeInput.value
+
+      await updateData(
+        "saldo",
+        {
+          jumlah_saldo: saldoAkhir.value,
+        },
+        "waktu",
+        dateForQuery
+      )
+    }
 
     if (!newPemasukan) {
       return
@@ -95,7 +113,7 @@ const addPemasukan = async () => {
           jumlah pemasukan
         </p>
         <input
-          class="input-primary"
+          class="input-primary pr-1"
           v-model="incomeInput"
           type="number"
           min="100"
