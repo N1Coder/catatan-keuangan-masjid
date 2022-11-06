@@ -96,7 +96,7 @@ export const getDataFromParams = async (routeParams) => {
           "jumlah_saldo",
           "waktu",
           dataSaldoAkhir,
-          dateForQuery
+          formattedLastDateWeek
         ),
       }
       break
@@ -151,7 +151,7 @@ export const getDataFromParams = async (routeParams) => {
           "jumlah_saldo",
           "waktu",
           dataSaldoAkhir,
-          dateForQuery
+          formattedLastDateMonth
         ),
       }
       break

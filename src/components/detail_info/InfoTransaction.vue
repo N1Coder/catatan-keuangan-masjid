@@ -1,12 +1,11 @@
 <script setup>
 import { Icon } from "@iconify/vue"
-import { computed, onMounted, ref } from "vue"
+import { onMounted, ref } from "vue"
 import { currency } from "../../utils/currency"
-import { saldoAkhir } from "../../utils/data/getDataFromParams"
 import { getSaldo } from "../../utils/data/getDataSaldo"
 import { dateForQuery, dateYesterday } from "../../utils/time/handleDate"
 import { upsertData } from "../../utils/useActions"
-import { getAllData, getDataToday } from "../../utils/useData"
+import { getDataToday } from "../../utils/useData"
 import {
   dataPemasukanHariIni,
   dataPengeluaranHariIni,
@@ -14,26 +13,11 @@ import {
 
 const totalPemasukan = ref(0),
   totalPengeluaran = ref(0),
-  jumlahSemuaPemasukan = ref(0),
-  jumlahSemuaPengeluaran = ref(0),
   saldoAwalHariIni = ref(0),
   saldoAkhirHariIni = ref(0)
 
-const dataSemuaPemasukan = ref([]),
-  dataSemuaPengeluaran = ref([]),
-  dataSaldoAwal = ref([]),
+const dataSaldoAwal = ref([]),
   dataSaldoAkhir = ref([])
-
-await getAllData("pemasukan", dataSemuaPemasukan)
-await getAllData("pengeluaran", dataSemuaPengeluaran)
-
-// dataSemuaPemasukan.value.map((pemasukan) => {
-//   jumlahSemuaPemasukan.value += Number(pemasukan.jumlah)
-// })
-
-// dataSemuaPengeluaran.value.map((pengeluaran) => {
-//   jumlahSemuaPengeluaran.value += Number(pengeluaran.jumlah)
-// })
 
 await getDataToday(
   "pemasukan",
@@ -48,41 +32,8 @@ await getDataToday(
   dataPengeluaranHariIni
 )
 
-// get the budget data
 await getSaldo("saldo", "jumlah_saldo", "waktu", dataSaldoAwal, dateYesterday)
-await getSaldo("saldo", "jumlah_saldo", "waktu", dataSaldoAkhir, dateForQuery)
-
-const checkSaldo = async () => {
-  const dataSaldo = ref([]),
-    dataSaldoAwal = ref([])
-
-  const saldoKemarin = await getSaldo(
-    "saldo",
-    "jumlah_saldo",
-    "waktu",
-    dataSaldoAwal,
-    dateYesterday
-  )
-  const saldoHariIni = await getSaldo(
-    "saldo",
-    "jumlah_saldo",
-    "waktu",
-    dataSaldo,
-    dateForQuery
-  )
-
-  if (dataSaldo.value.length === 0) {
-    return await upsertData("saldo", {
-      jenis_saldo: 1,
-      jumlah_saldo: dataSaldoAwal.value,
-      waktu: dateForQuery,
-    })
-  } else return
-}
-
-onMounted(() => {
-  checkSaldo()
-})
+await getSaldo("saldo", "jumlah_saldo", "waktu", dataSaldoAkhir, dateYesterday)
 
 saldoAwalHariIni.value = Number(dataSaldoAwal.value)
 saldoAkhirHariIni.value = Number(dataSaldoAkhir.value)
@@ -96,8 +47,21 @@ dataPengeluaranHariIni.value.map((pengeluaran) => {
   totalPengeluaran.value += Number(pengeluaran.jumlah)
 })
 
-// saldoAkhirHariIni.value -= totalPengeluaran.value
-// saldoAkhirHariIni.value += totalPemasukan.value
+const sumSaldoAkhir = () => {
+  saldoAkhirHariIni.value += totalPemasukan.value
+  saldoAkhirHariIni.value -= totalPengeluaran.value
+
+  return saldoAkhirHariIni.value
+}
+sumSaldoAkhir()
+
+onMounted(() => {
+  upsertData("saldo", {
+    jenis_saldo: 3,
+    jumlah_saldo: saldoAkhirHariIni.value,
+    waktu: dateForQuery,
+  })
+})
 </script>
 
 <template>
@@ -108,7 +72,7 @@ dataPengeluaranHariIni.value.map((pengeluaran) => {
       <div
         class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500"
       >
-        <p class="capitalize">jumlah saldo awal saat ini</p>
+        <p class="capitalize">jumlah saldo awal hari ini</p>
         <Icon icon="bi:info-circle-fill" />
       </div>
 
@@ -125,7 +89,7 @@ dataPengeluaranHariIni.value.map((pengeluaran) => {
       <div
         class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500"
       >
-        <p class="capitalize">jumlah saldo akhir saat ini</p>
+        <p class="capitalize">jumlah saldo akhir hari ini</p>
         <Icon icon="bi:info-circle-fill" />
       </div>
 

@@ -24,9 +24,9 @@ export const getLastWeekDates = () => {
   const to = d.setTime(
     d.getTime() - (d.getDay() ? d.getDay() : 7) * 24 * 60 * 60 * 1000
   )
-  const from = d.setTime(d.getTime() - 6 * 24 * 60 * 60 * 1000)
+  const from = d.setTime(d.getTime() + 6 * 24 * 60 * 60 * 1000)
 
-  return to
+  return from
 }
 
 // saved for later

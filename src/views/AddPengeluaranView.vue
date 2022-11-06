@@ -19,7 +19,7 @@ const saldoAkhir = ref(0)
 onMounted(async () => {
   await getCategories("kategori_pengeluaran", categoriesPengeluaran)
 
-  await getSaldo("saldo", "jumlah_saldo", "waktu", saldoAkhir, dateForQuery)
+  // await getSaldo("saldo", "jumlah_saldo", "waktu", saldoAkhir, dateForQuery)
 })
 
 const addPengeluaran = async () => {
@@ -35,18 +35,18 @@ const addPengeluaran = async () => {
       tanggal_pengeluaran: dateInput.value,
     })
 
-    if (dateInput.value === dateForQuery) {
-      saldoAkhir.value -= incomeInput.value
+    // if (dateInput.value === dateForQuery) {
+    //   saldoAkhir.value -= incomeInput.value
 
-      await updateData(
-        "saldo",
-        {
-          jumlah_saldo: saldoAkhir.value,
-        },
-        "waktu",
-        dateForQuery
-      )
-    }
+    //   await updateData(
+    //     "saldo",
+    //     {
+    //       jumlah_saldo: saldoAkhir.value,
+    //     },
+    //     "waktu",
+    //     dateForQuery
+    //   )
+    // }
 
     if (!newPengeluaran) {
       return

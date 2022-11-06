@@ -1,20 +1,10 @@
 <script setup>
-import { RouterView, useRoute } from "vue-router"
+import { RouterView } from "vue-router"
 import Notifications from "./components/notification/Notifications.vue"
 import Notif from "./components/notification/Notification.vue"
 import Navigation from "./components/Navigation.vue"
 import { userSession, validateUserSession } from "./utils/useAuth"
 import { dataNotif } from "./utils/useData"
-import { getLastWeekDates, getLastMonthDates } from "./utils/useTime"
-
-const route = useRoute()
-
-const start = getLastMonthDates()
-
-const date = new Date(start)
-const lw = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-
-console.log(lw)
 
 const closeNotif = (index) => {
   dataNotif.value.splice(index, 1)
@@ -34,12 +24,16 @@ const closeNotif = (index) => {
     </transition-group>
   </Notifications>
 
+  <!-- KEEPALIVE STILL WIP, STILL NOT STABLE RIGHT NOW -->
   <!-- key for tracking dynamic route params -->
-  <RouterView v-slot="{ Component }">
+  <!-- <RouterView v-slot="{ Component }">
     <KeepAlive>
       <component :is="Component" :key="route.fullPath" />
     </KeepAlive>
-  </RouterView>
+  </RouterView> -->
+
+  <!-- USE NORMAL ROUTERVIEW FOR NOW -->
+  <RouterView />
 
   <Navigation v-show="!validateUserSession(userSession)" />
 </template>

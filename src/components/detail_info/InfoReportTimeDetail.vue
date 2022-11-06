@@ -1,7 +1,7 @@
 <script setup>
 import Modal from "../Modal.vue"
 import { Icon } from "@iconify/vue"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import { useRoute } from "vue-router"
 import { currency } from "../../utils/currency"
 import {
@@ -60,8 +60,13 @@ dataPengeluaran.value.map((pengeluaran) => {
   totalPengeluaran.value += Number(pengeluaran.jumlah)
 })
 
-// saldoAkhir.value += totalPemasukan.value
-// saldoAkhir.value -= totalPengeluaran.value
+const sumSaldoAkhir = () => {
+  saldoAkhir.value += totalPemasukan.value
+  saldoAkhir.value -= totalPengeluaran.value
+
+  return saldoAkhir.value
+}
+sumSaldoAkhir()
 
 // for category section
 const sumCategoryPemasukan = (nameCategory, data) => {

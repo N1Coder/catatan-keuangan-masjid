@@ -16,10 +16,6 @@ export const getSaldo = async (table, query, col, dataVal, time) => {
 
     dataVal.value = Number(saldoNum.jumlah_saldo)
   } catch (err) {
-    dataNotif.value.push({
-      id: Math.trunc(Math.random() * 100),
-      success: false,
-      message: err.message,
-    })
+    console.log(err.message)
   }
 }
