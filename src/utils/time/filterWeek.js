@@ -20,13 +20,14 @@ export const getWeekDates = () => {
 }
 
 export const getLastWeekDates = () => {
-  const d = new Date()
-  const to = d.setTime(
-    d.getTime() - (d.getDay() ? d.getDay() : 7) * 24 * 60 * 60 * 1000
-  )
-  const from = d.setTime(d.getTime() + 6 * 24 * 60 * 60 * 1000)
+  const beforeOneWeek = new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000)
+  const beforeOneWeek2 = new Date(beforeOneWeek)
+  const day = beforeOneWeek.getDay()
+  const diffToMonday = beforeOneWeek.getDate() - day + (day === 0 ? -7 : 1)
+  const lastMonday = new Date(beforeOneWeek.setDate(diffToMonday))
+  const lastSaturday = new Date(beforeOneWeek2.setDate(diffToMonday + 5))
 
-  return from
+  return lastSaturday
 }
 
 // saved for later

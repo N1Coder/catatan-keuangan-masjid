@@ -13,7 +13,6 @@ import {
   dataNotif,
 } from "../useData"
 import { getSaldo } from "../data/getDataSaldo"
-import { dateForQuery } from "../time/handleDate"
 
 const saldoAwal = ref(0),
   saldoAkhir = ref(0)
@@ -173,6 +172,20 @@ export const getDataFromParams = async (routeParams) => {
           "kategori_pengeluaran",
           "*",
           dataCategoryPengeluaran
+        ),
+        saldoAwalKeseluruhan: await getSaldo(
+          "saldo",
+          "jumlah_saldo",
+          "waktu",
+          dataSaldoAwal,
+          formattedLastDateMonth
+        ),
+        saldoAkhirKeseluruhan: await getSaldo(
+          "saldo",
+          "jumlah_saldo",
+          "waktu",
+          dataSaldoAkhir,
+          formattedLastDateMonth
         ),
       }
       break

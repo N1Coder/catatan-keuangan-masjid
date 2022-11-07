@@ -87,7 +87,7 @@ const showStatusTime = (params) => {
   } else if (params === "month") {
     return "bulan ini"
   } else {
-    return "keseluruhan"
+    return "saat ini"
   }
 }
 
@@ -195,6 +195,7 @@ const closeModal = () => {
     </h2>
 
     <article
+      v-if="route.params.time !== 'all'"
       class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
     >
       <div
@@ -214,6 +215,7 @@ const closeModal = () => {
     </article>
 
     <article
+      :class="route.params.time === 'all' ? 'lg:col-span-2' : ''"
       class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
     >
       <div

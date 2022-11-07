@@ -98,13 +98,13 @@ import InfoCategoryReport from "../components/detail_info/InfoCategoryReport.vue
         >
           laporan bulan ini
         </RouterLink>
-
+        <!-- 
         <RouterLink
           :to="`/report/all`"
           class="button-primary font-semibold text-xs md:text-sm text-center col-span-2 lg:col-span-1"
         >
           laporan keseluruhan
-        </RouterLink>
+        </RouterLink> -->
       </article>
     </section>
   </section>

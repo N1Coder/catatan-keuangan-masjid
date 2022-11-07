@@ -5,6 +5,10 @@ import Notif from "./components/notification/Notification.vue"
 import Navigation from "./components/Navigation.vue"
 import { userSession, validateUserSession } from "./utils/useAuth"
 import { dataNotif } from "./utils/useData"
+import { getLastWeekDates } from "./utils/useTime"
+
+const lw = getLastWeekDates()
+console.log(lw)
 
 const closeNotif = (index) => {
   dataNotif.value.splice(index, 1)
