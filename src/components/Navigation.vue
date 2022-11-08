@@ -48,16 +48,6 @@ const navLists = [
       </li>
     </ul>
   </nav>
-
-  <!-- <nav class="fixed inset-y-0 left-0 min-w-[30vh] bg-orange-400">
-    <ul>
-      <li v-for="(nav, i) in navLists" :key="i" class="w-full">
-        <RouterLink class="block py-1" :to="nav.path">
-          <Icon class="mx-auto text-4xl" :icon="nav.icon" />
-        </RouterLink>
-      </li>
-    </ul>
-  </nav> -->
 </template>
 
 <style scoped type="text/tailwindcss">

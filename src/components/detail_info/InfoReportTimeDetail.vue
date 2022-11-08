@@ -208,7 +208,7 @@ const closeModal = () => {
       </div>
 
       <div>
-        <p class="mt-2 text-md lg:text-lg font-semibold text-slate-700">
+        <p class="mt-2 text-md font-semibold text-slate-700">
           Rp. {{ currency(saldoAwal) || 0 }},00
         </p>
       </div>
@@ -228,7 +228,7 @@ const closeModal = () => {
       </div>
 
       <div>
-        <p class="mt-2 text-md lg:text-lg font-semibold text-slate-700">
+        <p class="mt-2 text-md font-semibold text-slate-700">
           Rp.
           {{
             saldoAwal === saldoAkhir ? "-" : `${currency(saldoAkhir)},00` || 0
