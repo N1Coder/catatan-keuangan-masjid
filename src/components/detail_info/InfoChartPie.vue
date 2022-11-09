@@ -55,7 +55,7 @@ const dataPieWeek = ref([
 
 <template>
   <article
-    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-slate-800 p-4 gap-4 lg:row-span-2"
+    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-slate-800 dark:bg-slate-900 p-4 gap-4 lg:row-span-2"
   >
     <h2 class="capitalize text-xl font-semibold text-white">
       perbandingan jumlah transaksi minggu ini
@@ -63,21 +63,25 @@ const dataPieWeek = ref([
 
     <PieChart :data-week="dataPieWeek" :label-data="dataLabelPie" />
 
-    <div class="flex items-center justify-between bg-white p-4 rounded-lg">
+    <div
+      class="flex items-center justify-between bg-white dark:bg-slate-800 p-4 rounded-lg"
+    >
       <div class="flex items-center gap-x-2 text-md text-rose-500 font-bold">
         <p class="capitalize">pengeluaran</p>
         <Icon icon="bi:arrow-up-square-fill" />
       </div>
-      <p class="text-base text-rose-700 font-semibold">
+      <p class="text-base text-rose-700 dark:text-rose-500 font-semibold">
         Rp. {{ currency(jumlahPengeluaranMingguIni) }},00
       </p>
     </div>
-    <div class="flex items-center justify-between bg-white p-4 rounded-lg">
+    <div
+      class="flex items-center justify-between bg-white dark:bg-slate-800 p-4 rounded-lg"
+    >
       <div class="flex items-center gap-x-2 text-md text-emerald-500 font-bold">
         <p class="capitalize">pemasukan</p>
         <Icon icon="bi:arrow-down-square-fill" />
       </div>
-      <p class="text-base text-emerald-700 font-semibold">
+      <p class="text-base text-emerald-700 dark:text-emerald-500 font-semibold">
         Rp. {{ currency(jumlahPemasukanMingguIni) }},00
       </p>
     </div>

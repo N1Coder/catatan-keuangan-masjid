@@ -1,10 +1,8 @@
 <script setup>
 import { Icon } from "@iconify/vue"
-import { computed, ref } from "vue"
+import { computed } from "vue"
 
 const props = defineProps(["status", "message"])
-
-const notif = ref(null)
 
 const colorStatus = computed(() => {
   return (status) => {

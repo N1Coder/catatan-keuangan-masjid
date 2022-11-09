@@ -5,7 +5,9 @@ import { Icon } from "@iconify/vue"
 <template>
   <section class="p-dekstop">
     <header>
-      <h1 class="capitalize text-xl lg:text-3xl font-bold text-orange-600 mb-6">
+      <h1
+        class="capitalize text-xl lg:text-3xl font-bold text-orange-600 dark:text-slate-100 mb-6"
+      >
         tambah transaksi keuangan
       </h1>
     </header>

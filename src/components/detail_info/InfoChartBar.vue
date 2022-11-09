@@ -39,7 +39,7 @@ sumInDay(daysIndonesian, dataPengeluaranMingguIni.value, dataPengeluaranPerHari)
 
 <template>
   <article
-    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-zinc-800 p-4 gap-4"
+    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 bg-zinc-800 dark:bg-slate-900 p-4 gap-4"
   >
     <h2 class="capitalize text-xl font-semibold text-white">
       lihat grafik transaksi minggu ini

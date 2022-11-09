@@ -27,7 +27,7 @@ const navLists = [
 
 <template>
   <nav
-    class="fixed bottom-0 left-0 w-full lg:border-r-[3px] lg:border-r-slate-900 lg:max-w-[20vw] lg:top-0 bg-orange-400"
+    class="fixed bottom-0 left-0 w-full lg:border-r-[3px] lg:border-r-slate-900 lg:max-w-[20vw] lg:top-0 bg-orange-400 dark:bg-slate-800 dark:border-r-slate-200/20"
   >
     <ul class="flex items-center justify-center lg:flex-col">
       <li
@@ -52,11 +52,11 @@ const navLists = [
 
 <style scoped type="text/tailwindcss">
 a {
-  @apply transition-colors text-slate-50 hover:bg-slate-50 hover:text-orange-400 active:bg-slate-50 active:text-orange-400;
+  @apply transition-colors text-slate-50 hover:bg-slate-50 hover:text-orange-400 active:bg-slate-50 active:text-orange-400 dark:hover:text-slate-700;
 }
 
 a.link-active,
 a.link-exact-active {
-  @apply bg-slate-50 text-orange-400 hover:bg-slate-200 hover:text-orange-600;
+  @apply bg-slate-50 text-orange-400 hover:bg-slate-200 hover:text-orange-600 dark:text-slate-700 dark:hover:text-slate-800;
 }
 </style>

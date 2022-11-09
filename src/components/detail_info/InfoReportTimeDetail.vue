@@ -1,7 +1,7 @@
 <script setup>
 import Modal from "../Modal.vue"
 import { Icon } from "@iconify/vue"
-import { computed, ref } from "vue"
+import { ref } from "vue"
 import { useRoute } from "vue-router"
 import { currency } from "../../utils/currency"
 import {
@@ -19,9 +19,7 @@ import { daysIndonesian } from "../../utils/time/getDay"
 import { monthsIndonesian } from "../../utils/time/getMonth"
 import { sortByLatest } from "../../utils/time/sortByLatest"
 import { dataNotif, getCategories } from "../../utils/useData"
-import { getDataByDate } from "../../utils/data/getDataByDate"
 import { deleteData, updateData } from "../../utils/useActions"
-import { getMonthDates } from "../../utils/useTime"
 
 const route = useRoute()
 
@@ -87,7 +85,7 @@ const showStatusTime = (params) => {
   } else if (params === "month") {
     return "bulan ini"
   } else {
-    return "saat ini"
+    return "keseluruhan"
   }
 }
 
@@ -189,17 +187,16 @@ const closeModal = () => {
 <template>
   <article class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <h2
-      class="lg:col-span-2 capitalize text-2xl font-bold text-orange-600 mb-6"
+      class="md:col-span-2 capitalize text-2xl font-bold text-orange-600 dark:text-slate-100 mb-6"
     >
       laporan keuangan {{ showStatusTime(route.params.time) }}
     </h2>
 
     <article
-      v-if="route.params.time !== 'all'"
-      class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
+      class="shadow-sharp border-[3px] border-black bg-white dark:bg-slate-800 p-4 rounded-lg"
     >
       <div
-        class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500"
+        class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500 dark:text-slate-200"
       >
         <p class="capitalize">
           jumlah saldo awal {{ showStatusTime(route.params.time) }}
@@ -208,7 +205,9 @@ const closeModal = () => {
       </div>
 
       <div>
-        <p class="mt-2 text-md font-semibold text-slate-700">
+        <p
+          class="mt-2 text-md font-semibold text-slate-700 dark:text-slate-200"
+        >
           Rp. {{ currency(saldoAwal) || 0 }},00
         </p>
       </div>
@@ -216,10 +215,10 @@ const closeModal = () => {
 
     <article
       :class="route.params.time === 'all' ? 'lg:col-span-2' : ''"
-      class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
+      class="shadow-sharp border-[3px] border-black bg-white dark:bg-slate-800 p-4 rounded-lg"
     >
       <div
-        class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500"
+        class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500 dark:text-slate-200"
       >
         <p class="capitalize">
           jumlah saldo akhir {{ showStatusTime(route.params.time) }}
@@ -228,7 +227,9 @@ const closeModal = () => {
       </div>
 
       <div>
-        <p class="mt-2 text-md font-semibold text-slate-700">
+        <p
+          class="mt-2 text-md font-semibold text-slate-700 dark:text-slate-200"
+        >
           Rp.
           {{
             saldoAwal === saldoAkhir ? "-" : `${currency(saldoAkhir)},00` || 0
@@ -238,7 +239,7 @@ const closeModal = () => {
     </article>
 
     <article
-      class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
+      class="shadow-sharp border-[3px] border-black bg-white dark:bg-slate-800 p-4 rounded-lg"
     >
       <div
         class="flex items-center justify-between text-lg font-bold text-rose-500"
@@ -250,14 +251,14 @@ const closeModal = () => {
       </div>
 
       <div>
-        <p class="mt-2 text-md font-semibold text-rose-700">
+        <p class="mt-2 text-md font-semibold text-rose-700 dark:text-rose-500">
           Rp. {{ currency(totalPengeluaran) }},00
         </p>
       </div>
     </article>
 
     <article
-      class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
+      class="shadow-sharp border-[3px] border-black bg-white dark:bg-slate-800 p-4 rounded-lg"
     >
       <div
         class="flex items-center justify-between text-lg font-bold text-emerald-500"
@@ -269,7 +270,9 @@ const closeModal = () => {
       </div>
 
       <div>
-        <p class="mt-2 text-md font-semibold text-emerald-700">
+        <p
+          class="mt-2 text-md font-semibold text-emerald-700 dark:text-emerald-500"
+        >
           Rp. {{ currency(totalPemasukan) }},00
         </p>
       </div>
@@ -277,16 +280,16 @@ const closeModal = () => {
   </article>
 
   <article
-    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 lg:grid-cols-2 bg-rose-700 mt-10 p-4 gap-4"
+    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 lg:grid-cols-2 bg-rose-700 dark:bg-slate-900 mt-10 p-4 gap-4"
   >
     <h2 class="lg:col-span-2 capitalize text-xl font-semibold text-white">
       laporan kategori {{ showStatusTime(route.params.time) }}
     </h2>
 
     <article
-      class="bg-white p-4 rounded-lg divide-y-reverse divide-y-2 divide-slate-300"
+      class="bg-white dark:bg-slate-800 p-4 rounded-lg divide-y-reverse divide-y-2 divide-slate-300 dark:divide-slate-600"
     >
-      <h2 class="capitalize text-md font-semibold mb-1">
+      <h2 class="capitalize text-md font-semibold mb-1 dark:text-slate-200">
         total tiap kategori pengeluaran
       </h2>
 
@@ -298,7 +301,7 @@ const closeModal = () => {
           {{ pengeluaran.nama_kategori }}
         </p>
 
-        <p class="mt-2 text-sm text-rose-700 font-semibold">
+        <p class="mt-2 text-sm text-rose-700 dark:text-rose-500 font-semibold">
           Rp.
           {{
             currency(sumCategoryPengeluaran(i + 1, dataCategoryPengeluaran))
@@ -308,9 +311,9 @@ const closeModal = () => {
     </article>
 
     <article
-      class="bg-white p-4 rounded-lg divide-y-reverse divide-y-2 divide-slate-300"
+      class="bg-white dark:bg-slate-800 p-4 rounded-lg divide-y-reverse divide-y-2 divide-slate-300 dark:divide-slate-600"
     >
-      <h2 class="capitalize text-md font-semibold mb-1">
+      <h2 class="capitalize text-md font-semibold mb-1 dark:text-slate-200">
         total tiap kategori pemasukan
       </h2>
 
@@ -322,7 +325,9 @@ const closeModal = () => {
           {{ pemasukan.nama_kategori }}
         </p>
 
-        <p class="mt-2 text-sm text-emerald-700 font-semibold">
+        <p
+          class="mt-2 text-sm text-emerald-700 dark:text-emerald-500 font-semibold"
+        >
           Rp.
           {{ currency(sumCategoryPemasukan(i + 1, dataCategoryPemasukan)) }},00
         </p>
@@ -331,7 +336,9 @@ const closeModal = () => {
   </article>
 
   <article class="relative mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-    <h2 class="capitalize text-orange-600 text-lg font-bold md:col-span-2">
+    <h2
+      class="capitalize text-orange-600 dark:text-slate-200 text-lg font-bold md:col-span-2"
+    >
       {{ showStatusTransaksi() }}
     </h2>
 
@@ -339,11 +346,13 @@ const closeModal = () => {
       <article
         v-for="(transaksi, i) in dataTransaksi"
         :key="transaksi.id_pengeluaran ?? transaksi.id_pemasukan"
-        class="relative shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg"
+        class="relative shadow-sharp border-[3px] border-black bg-white dark:bg-slate-800 p-4 rounded-lg"
       >
         <p
           :class="
-            transaksi.id_pengeluaran ? 'text-rose-600' : 'text-emerald-600'
+            transaksi.id_pengeluaran
+              ? 'text-rose-600 dark:text-rose-500'
+              : 'text-emerald-600 dark:text-emerald-500'
           "
           class="flex items-center gap-x-1 mb-1 capitalize text-md font-bold"
         >
@@ -358,13 +367,17 @@ const closeModal = () => {
         <div class="flex items-center">
           <div
             :class="
-              transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'
+              transaksi.id_pengeluaran
+                ? 'text-rose-700 dark:text-rose-500'
+                : 'text-emerald-700 dark:text-emerald-500'
             "
             class="text-md font-semibold"
           >
             <p
               :class="
-                transaksi.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'
+                transaksi.id_pengeluaran
+                  ? 'text-rose-700 dark:text-rose-500'
+                  : 'text-emerald-700 dark:text-emerald-500'
               "
               class="capitalize"
             >
@@ -422,10 +435,12 @@ const closeModal = () => {
 
         <form
           @submit.prevent="updateDataModal"
-          class="flex flex-col gap-4 mt-3 py-9 p-7 bg-white shadow-sharp border-[3px] border-black"
+          class="flex flex-col gap-4 mt-3 py-9 p-7 bg-white dark:bg-slate-900 shadow-sharp border-[3px] border-black"
         >
           <label>
-            <p class="capitalize text-lg text-orange-500 font-medium">
+            <p
+              class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+            >
               tanggal {{ msg }}
             </p>
             <input
@@ -437,7 +452,9 @@ const closeModal = () => {
           </label>
 
           <label>
-            <p class="capitalize text-lg text-orange-500 font-medium">
+            <p
+              class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+            >
               kategori {{ msg }}
             </p>
 
@@ -453,7 +470,9 @@ const closeModal = () => {
           </label>
 
           <label>
-            <p class="capitalize text-lg text-orange-500 font-medium">
+            <p
+              class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+            >
               nama {{ msg }}
             </p>
             <input
@@ -467,7 +486,9 @@ const closeModal = () => {
           </label>
 
           <label>
-            <p class="capitalize text-lg text-orange-500 font-medium">
+            <p
+              class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+            >
               jumlah {{ msg }}
             </p>
             <input
@@ -479,7 +500,9 @@ const closeModal = () => {
               required
             />
 
-            <p class="capitalize text-lg text-orange-500 font-medium">
+            <p
+              class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+            >
               Rp. {{ currency(incomeInput) || "0" }},00
             </p>
           </label>

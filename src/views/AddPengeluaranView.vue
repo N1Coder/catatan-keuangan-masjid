@@ -2,9 +2,8 @@
 import { Icon } from "@iconify/vue"
 import { onMounted, ref } from "vue"
 import { currency } from "../utils/currency"
-import { getSaldo } from "../utils/data/getDataSaldo"
 import { dateForQuery } from "../utils/time/handleDate"
-import { insertData, updateData } from "../utils/useActions"
+import { insertData } from "../utils/useActions"
 import { getCategories } from "../utils/useData"
 
 const categoriesPengeluaran = ref([])
@@ -14,12 +13,8 @@ const nameInput = ref(""),
   dateInput = ref(dateForQuery),
   categoriesInput = ref(null)
 
-const saldoAkhir = ref(0)
-
 onMounted(async () => {
   await getCategories("kategori_pengeluaran", categoriesPengeluaran)
-
-  // await getSaldo("saldo", "jumlah_saldo", "waktu", saldoAkhir, dateForQuery)
 })
 
 const addPengeluaran = async () => {
@@ -34,19 +29,6 @@ const addPengeluaran = async () => {
       jumlah: incomeInput.value,
       tanggal_pengeluaran: dateInput.value,
     })
-
-    // if (dateInput.value === dateForQuery) {
-    //   saldoAkhir.value -= incomeInput.value
-
-    //   await updateData(
-    //     "saldo",
-    //     {
-    //       jumlah_saldo: saldoAkhir.value,
-    //     },
-    //     "waktu",
-    //     dateForQuery
-    //   )
-    // }
 
     if (!newPengeluaran) {
       return
@@ -63,23 +45,29 @@ const addPengeluaran = async () => {
 
 <template>
   <section class="p-dekstop lg:pr-[45vw]">
-    <h1 class="capitalize text-3xl text-orange-500 font-bold">
+    <h1
+      class="capitalize text-3xl text-orange-500 dark:text-slate-100 font-bold"
+    >
       tambah pengeluaran
     </h1>
 
     <form
-      class="flex flex-col gap-4 mt-6 py-9 p-7 bg-white shadow-sharp-lg border-[3px] border-black"
+      class="flex flex-col gap-4 mt-6 py-9 p-7 bg-white dark:bg-slate-900 shadow-sharp-lg border-[3px] border-black"
       @submit.prevent="addPengeluaran"
     >
       <label>
-        <p class="capitalize text-lg text-orange-500 font-medium">
+        <p
+          class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+        >
           tanggal pengeluaran
         </p>
         <input class="input-primary" v-model="dateInput" type="date" required />
       </label>
 
       <label>
-        <p class="capitalize text-lg text-orange-500 font-medium">
+        <p
+          class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+        >
           kategori pengeluaran
         </p>
         <select class="input-primary py-1" v-model="categoriesInput">
@@ -94,7 +82,9 @@ const addPengeluaran = async () => {
       </label>
 
       <label>
-        <p class="capitalize text-lg text-orange-500 font-medium">
+        <p
+          class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+        >
           nama pengeluaran
         </p>
         <input
@@ -107,7 +97,9 @@ const addPengeluaran = async () => {
       </label>
 
       <label>
-        <p class="capitalize text-lg text-orange-500 font-medium">
+        <p
+          class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+        >
           jumlah pengeluaran
         </p>
         <input
@@ -119,7 +111,9 @@ const addPengeluaran = async () => {
           required
         />
 
-        <p class="capitalize text-lg text-orange-500 font-medium">
+        <p
+          class="capitalize text-lg text-orange-500 dark:text-slate-200 font-medium"
+        >
           Rp. {{ currency(incomeInput) || 0 }},00
         </p>
       </label>

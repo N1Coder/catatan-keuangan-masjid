@@ -32,14 +32,14 @@ sortHighToLow(dataTransaksiHariIni.value)
 
 <template>
     <article class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-      <h2 class="first-letter:capitalize text-orange-600 text-lg lg:text-xl font-bold md:col-span-2">
+      <h2 class="first-letter:capitalize text-orange-600 dark:text-slate-200 text-lg lg:text-xl font-bold md:col-span-2">
         {{ showStatusTransaksi() }}
       </h2>
 
-      <article v-for="(transaksiHariIni, i) in dataTransaksiHariIni" :key="i" class="shadow-sharp border-[3px] border-black bg-white p-4 rounded-lg">
+      <article v-for="(transaksiHariIni, i) in dataTransaksiHariIni" :key="i" class="shadow-sharp border-[3px] border-black bg-white dark:bg-slate-800 p-4 rounded-lg">
       <div>
-        <p class="text-md lg:text-lg font-semibold" :class="transaksiHariIni.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'" >
-            <p class="capitalize" :class="transaksiHariIni.id_pengeluaran ? 'text-rose-700' : 'text-emerald-700'">
+        <p class="text-md lg:text-lg font-semibold" :class="transaksiHariIni.id_pengeluaran ? 'text-rose-700 dark:text-rose-500' : 'text-emerald-700 dark:text-emerald-500'" >
+            <p class="capitalize" :class="transaksiHariIni.id_pengeluaran ? 'text-rose-700 dark:text-rose-500' : 'text-emerald-700 dark:text-emerald-500'">
               {{ transaksiHariIni.id_pengeluaran ? transaksiHariIni.nama_pengeluaran : transaksiHariIni.nama_pemasukan }}
             </p>
             Rp. {{ currency(transaksiHariIni.jumlah) }},00

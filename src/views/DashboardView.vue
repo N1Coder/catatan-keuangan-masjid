@@ -9,10 +9,14 @@ import InfoTransaction from "../components/detail_info/InfoTransaction.vue"
 <template>
   <section class="p-dekstop">
     <header>
-      <h1 class="capitalize text-xl md:text-2xl text-orange-600 font-bold">
+      <h1
+        class="capitalize text-xl md:text-2xl text-orange-600 dark:text-slate-100 font-bold"
+      >
         overview keuangan masjid Al-Fadhilah
       </h1>
-      <p class="text-md md:text-lg text-orange-500 font-semibold">
+      <p
+        class="text-md md:text-lg text-orange-500 dark:text-slate-200 font-semibold"
+      >
         Hari ini, {{ dateToday }}
       </p>
     </header>
@@ -34,9 +38,13 @@ import InfoTransaction from "../components/detail_info/InfoTransaction.vue"
       tambah transaksi
     </RouterLink>
 
-    <button class="inline-block ml-4 button-primary" @click="handleLogout">
+    <RouterLink
+      class="inline-block ml-4 button-primary"
+      @click="handleLogout"
+      :to="{ name: 'signin' }"
+    >
       Logout
-    </button>
+    </RouterLink>
 
     <Suspense>
       <template #default>

@@ -12,7 +12,7 @@ import {
   getAllCategoriesData,
   dataNotif,
 } from "../useData"
-import { getSaldo } from "../data/getDataSaldo"
+import { getFirstSaldo, getSaldo } from "../data/getDataSaldo"
 
 const saldoAwal = ref(0),
   saldoAkhir = ref(0)
@@ -173,19 +173,15 @@ export const getDataFromParams = async (routeParams) => {
           "*",
           dataCategoryPengeluaran
         ),
-        saldoAwalKeseluruhan: await getSaldo(
+        saldoAwalKeseluruhan: await getFirstSaldo(
           "saldo",
           "jumlah_saldo",
-          "waktu",
-          dataSaldoAwal,
-          formattedLastDateMonth
+          dataSaldoAwal
         ),
-        saldoAkhirKeseluruhan: await getSaldo(
+        saldoAkhirKeseluruhan: await getFirstSaldo(
           "saldo",
           "jumlah_saldo",
-          "waktu",
-          dataSaldoAkhir,
-          formattedLastDateMonth
+          dataSaldoAkhir
         ),
       }
       break

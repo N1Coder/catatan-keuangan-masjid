@@ -7,7 +7,7 @@
 }
 
 #app {
-  @apply relative min-h-screen overflow-x-hidden bg-[#fff0e1] p-14 pb-24 px-4 sm:px-12 md:px-20;
+  @apply relative min-h-screen overflow-x-hidden bg-[#fff0e1] bg-gradient-to-tl from-[#fff0e1] to-amber-100 dark:from-slate-900 dark:to-slate-900 p-14 pb-24 px-4 sm:px-12 md:px-14;
 }
 
 .shadow-sharp-sm {
@@ -27,7 +27,7 @@
 }
 
 .button-primary {
-  @apply shadow-sharp transition-all capitalize py-2 px-4 bg-orange-400 border-2 border-slate-900 text-slate-900 font-medium hover:bg-orange-500 hover:shadow-none focus-within:bg-orange-500 focus-within:shadow-none;
+  @apply shadow-sharp transition-all capitalize py-2 px-4 bg-orange-400 border-2 border-slate-900 text-slate-900 font-medium hover:bg-orange-500 hover:shadow-none focus-within:bg-orange-500 focus-within:shadow-none dark:bg-slate-800 dark:text-slate-200 dark:border-black dark:hover:bg-slate-700 dark:focus-within:bg-slate-700;
 }
 
 .button-action-edit {
@@ -39,11 +39,11 @@
 }
 
 .input-primary {
-  @apply w-full mt-1 border-2 rounded-sm outline-none focus-within:ring-1 bg-orange-50 focus-within:bg-orange-100 focus-within:ring-orange-600 border-orange-500 text-slate-900 py-2 pl-3 pr-4;
+  @apply w-full mt-1 border-2 rounded-sm outline-none focus-within:ring-1 bg-orange-50 focus-within:bg-orange-100 focus-within:ring-orange-600 border-orange-500 text-slate-900 py-2 pl-3 pr-4 dark:bg-slate-800 dark:focus:bg-slate-700 dark:placeholder:text-slate-300/50 dark:border-slate-500 dark:focus-within:ring-slate-600 dark:text-slate-200;
 }
 
 .toast-notif {
-  @apply flex items-center justify-start rounded-sm p-3 py-2 gap-2 bg-white border-2 border-black pointer-events-auto;
+  @apply flex items-center justify-start rounded-sm p-3 py-2 gap-2 bg-white border-2 border-black pointer-events-auto dark:bg-slate-800 dark:text-slate-200;
 }
 
 .close-btn-notif {

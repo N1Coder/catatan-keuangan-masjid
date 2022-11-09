@@ -16,12 +16,20 @@ export const handleLogout = async () => {
       return
     }
 
-    window.location.reload().then(() => {
-      dataNotif.value.push({
-        id: Math.trunc(Math.random() * 100),
-        success: true,
-        message: "kamu telah logout dari aplikasi",
-      })
+    // window.location.reload().then(() => {
+    //   dataNotif.value.push({
+    //     id: Math.trunc(Math.random() * 100),
+    //     success: true,
+    //     message: "kamu telah logout dari aplikasi",
+    //   })
+    // })
+
+    // router.push({ name: "signin" })
+
+    dataNotif.value.push({
+      id: Math.trunc(Math.random() * 100),
+      success: true,
+      message: "kamu telah logout dari aplikasi",
     })
   } catch (err) {
     alert("Unknown error signing out")
