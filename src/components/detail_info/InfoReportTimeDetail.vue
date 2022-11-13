@@ -18,8 +18,10 @@ import {
 import { daysIndonesian } from "../../utils/time/getDay"
 import { monthsIndonesian } from "../../utils/time/getMonth"
 import { sortByLatest } from "../../utils/time/sortByLatest"
-import { dataNotif, getCategories } from "../../utils/useData"
+import { dataNotif, getAllData, getCategories } from "../../utils/useData"
 import { deleteData, updateData } from "../../utils/useActions"
+import Print from "../print/Print.vue"
+import { getFirstSaldo } from "../../utils/data/getDataSaldo"
 
 const route = useRoute()
 
@@ -34,12 +36,26 @@ const nameInput = ref(""),
 const msg = ref(""),
   id = ref(null)
 
+const dataPemasukanSemua = ref([]),
+  dataPengeluaranSemua = ref([]),
+  totalPemasukanSemua = ref(0),
+  totalPengeluaranSemua = ref(0),
+  saldoAwalKeseluruhan = ref(0),
+  saldoAkhirKeseluruhan = ref(0)
+
+const dataSaldoAwalKeseluruhan = ref([]),
+  dataSaldoAkhirKeseluruhan = ref([])
+
 const totalPemasukan = ref(0),
   totalPengeluaran = ref(0)
 
 const categoryPemasukan = ref([]),
   categoryPengeluaran = ref([])
 
+await getFirstSaldo("saldo", "jumlah_saldo", dataSaldoAwalKeseluruhan)
+await getFirstSaldo("saldo", "jumlah_saldo", dataSaldoAkhirKeseluruhan)
+await getAllData("pemasukan", dataPemasukanSemua)
+await getAllData("pengeluaran", dataPengeluaranSemua)
 await getCategories("kategori_pemasukan", categoryPemasukan)
 await getCategories("kategori_pengeluaran", categoryPengeluaran)
 
@@ -48,6 +64,16 @@ await getDataFromParams(route.params.time)
 
 saldoAwal.value = Number(dataSaldoAwal.value)
 saldoAkhir.value = Number(dataSaldoAkhir.value)
+saldoAwalKeseluruhan.value = Number(dataSaldoAwalKeseluruhan.value)
+saldoAkhirKeseluruhan.value = Number(dataSaldoAkhirKeseluruhan.value)
+
+dataPemasukanSemua.value.map((pemasukan) => {
+  totalPemasukanSemua.value += Number(pemasukan.jumlah)
+})
+
+dataPengeluaranSemua.value.map((pengeluaran) => {
+  totalPengeluaranSemua.value += Number(pengeluaran.jumlah)
+})
 
 // for total section
 dataPemasukan.value.map((pemasukan) => {
@@ -59,10 +85,10 @@ dataPengeluaran.value.map((pengeluaran) => {
 })
 
 const sumSaldoAkhir = () => {
-  saldoAkhir.value += totalPemasukan.value
-  saldoAkhir.value -= totalPengeluaran.value
+  saldoAkhirKeseluruhan.value += totalPemasukanSemua.value
+  saldoAkhirKeseluruhan.value -= totalPengeluaranSemua.value
 
-  return saldoAkhir.value
+  return saldoAkhirKeseluruhan.value
 }
 sumSaldoAkhir()
 
@@ -179,13 +205,17 @@ const updateDataModal = async () => {
   }
 }
 
+const printReport = () => {
+  window.print()
+}
+
 const closeModal = () => {
   modalStatus.value = false
 }
 </script>
 
 <template>
-  <article class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <article class="print:hidden grid grid-cols-1 md:grid-cols-2 gap-4">
     <h2
       class="md:col-span-2 capitalize text-2xl font-bold text-orange-600 dark:text-slate-100 mb-6"
     >
@@ -196,7 +226,7 @@ const closeModal = () => {
       class="shadow-sharp border-[3px] border-black bg-white dark:bg-slate-800 p-4 rounded-lg"
     >
       <div
-        class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500 dark:text-slate-200"
+        class="flex items-center justify-between text-lg font-bold text-slate-500 dark:text-slate-200"
       >
         <p class="capitalize">
           jumlah saldo awal {{ showStatusTime(route.params.time) }}
@@ -214,11 +244,11 @@ const closeModal = () => {
     </article>
 
     <article
-      :class="route.params.time === 'all' ? 'lg:col-span-2' : ''"
+      :class="route.params.time === 'all' ? '' : ''"
       class="shadow-sharp border-[3px] border-black bg-white dark:bg-slate-800 p-4 rounded-lg"
     >
       <div
-        class="flex items-center justify-between text-lg lg:text-xl font-bold text-slate-500 dark:text-slate-200"
+        class="flex items-center justify-between text-lg font-bold text-slate-500 dark:text-slate-200"
       >
         <p class="capitalize">
           jumlah saldo akhir {{ showStatusTime(route.params.time) }}
@@ -232,7 +262,9 @@ const closeModal = () => {
         >
           Rp.
           {{
-            saldoAwal === saldoAkhir ? "-" : `${currency(saldoAkhir)},00` || 0
+            saldoAwal === saldoAkhirKeseluruhan
+              ? "-"
+              : `${currency(saldoAkhirKeseluruhan)},00` || 0
           }}
         </p>
       </div>
@@ -280,7 +312,7 @@ const closeModal = () => {
   </article>
 
   <article
-    class="shadow-sharp-lg border-4 border-black grid grid-cols-1 lg:grid-cols-2 bg-rose-700 dark:bg-slate-900 mt-10 p-4 gap-4"
+    class="print:hidden shadow-sharp-lg border-4 border-black grid grid-cols-1 lg:grid-cols-2 bg-rose-700 dark:bg-slate-900 mt-10 p-4 gap-4"
   >
     <h2 class="lg:col-span-2 capitalize text-xl font-semibold text-white">
       laporan kategori {{ showStatusTime(route.params.time) }}
@@ -289,9 +321,9 @@ const closeModal = () => {
     <article
       class="bg-white dark:bg-slate-800 p-4 rounded-lg divide-y-reverse divide-y-2 divide-slate-300 dark:divide-slate-600"
     >
-      <h2 class="capitalize text-md font-semibold mb-1 dark:text-slate-200">
+      <h3 class="capitalize text-md font-semibold mb-1 dark:text-slate-200">
         total tiap kategori pengeluaran
-      </h2>
+      </h3>
 
       <div
         v-for="(pengeluaran, i) in categoryPengeluaran"
@@ -313,9 +345,9 @@ const closeModal = () => {
     <article
       class="bg-white dark:bg-slate-800 p-4 rounded-lg divide-y-reverse divide-y-2 divide-slate-300 dark:divide-slate-600"
     >
-      <h2 class="capitalize text-md font-semibold mb-1 dark:text-slate-200">
+      <h3 class="capitalize text-md font-semibold mb-1 dark:text-slate-200">
         total tiap kategori pemasukan
-      </h2>
+      </h3>
 
       <div
         v-for="(pemasukan, i) in categoryPemasukan"
@@ -324,7 +356,6 @@ const closeModal = () => {
         <p class="capitalize text-sm">
           {{ pemasukan.nama_kategori }}
         </p>
-
         <p
           class="mt-2 text-sm text-emerald-700 dark:text-emerald-500 font-semibold"
         >
@@ -335,7 +366,17 @@ const closeModal = () => {
     </article>
   </article>
 
-  <article class="relative mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+  <button
+    v-if="route.params.time === 'week'"
+    @click="printReport"
+    class="print:hidden button-primary inline-block mt-6"
+  >
+    cetak laporan
+  </button>
+
+  <article
+    class="print:hidden relative mt-8 grid grid-cols-1 md:grid-cols-2 gap-4"
+  >
     <h2
       class="capitalize text-orange-600 dark:text-slate-200 text-lg font-bold md:col-span-2"
     >
@@ -423,6 +464,15 @@ const closeModal = () => {
     </transition-group>
   </article>
 
+  <article class="hidden print:grid gap-4">
+    <Print
+      :saldo-awal="saldoAwal"
+      :saldo-akhir="saldoAkhirKeseluruhan"
+      :data-pengeluaran="dataPengeluaran"
+      :data-pemasukan="dataPemasukan"
+    />
+  </article>
+
   <Transition name="modal">
     <Modal @close="closeModal" v-if="modalStatus">
       <div class="p-8 px-6 lg:max-w-md lg:mx-auto">
@@ -445,7 +495,7 @@ const closeModal = () => {
             </p>
             <input
               v-model="dateInput"
-              class="input-primary"
+              class="input-primary pr-1"
               type="date"
               required
             />

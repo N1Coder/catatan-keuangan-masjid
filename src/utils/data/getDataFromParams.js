@@ -1,3 +1,4 @@
+import { previousSaturday, parseISO } from "date-fns"
 import { ref } from "vue"
 import {
   getWeekDates,
@@ -30,7 +31,7 @@ const [startWeek, endWeek] = getWeekDates(),
   [startMonth, endMonth] = getMonthDates()
 
 // get last day of week / month
-const lastDayOfWeek = getLastWeekDates(),
+const lastDayOfWeek = previousSaturday(parseISO(startWeek)),
   lastDayOfMonth = getLastMonthDates()
 
 const dateWeek = new Date(lastDayOfWeek),

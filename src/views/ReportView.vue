@@ -77,7 +77,7 @@ import InfoCategoryReport from "../components/detail_info/InfoCategoryReport.vue
       </Suspense>
 
       <article
-        class="shadow-sharp-lg border-4 border-black grid grid-cols-2 lg:grid-cols-3 bg-sky-500 dark:bg-slate-900 p-4 gap-4"
+        class="shadow-sharp-lg border-4 border-black grid grid-cols-2 lg:grid-cols-1 w-fit bg-sky-500 dark:bg-slate-900 p-4 gap-4"
       >
         <h2
           class="col-span-3 capitalize text-xl lg:text-2xl font-semibold text-white"
@@ -92,7 +92,8 @@ import InfoCategoryReport from "../components/detail_info/InfoCategoryReport.vue
           laporan minggu ini
         </RouterLink>
 
-        <RouterLink
+        <!-- DISABLE RECORD FOR MONTH AND YEAR BECAUSE OF UNEXPECTED BEHAVIOR THAT CAUSED MASS DESTRUCTION TO APP -->
+        <!-- <RouterLink
           :to="`/report/month`"
           class="button-primary font-semibold text-xs md:text-sm text-center"
         >
@@ -104,7 +105,7 @@ import InfoCategoryReport from "../components/detail_info/InfoCategoryReport.vue
           class="button-primary font-semibold text-xs md:text-sm text-center col-span-2 lg:col-span-1"
         >
           laporan keseluruhan
-        </RouterLink>
+        </RouterLink> -->
       </article>
     </section>
   </section>

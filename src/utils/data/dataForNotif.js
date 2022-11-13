@@ -6,7 +6,7 @@ watchEffect((onInvalidate) => {
   if (dataNotif.value.length > 0) {
     const deleteNotif = setInterval(() => {
       dataNotif.value.shift()
-    }, 1500)
+    }, 2000)
 
     onInvalidate(() => {
       clearInterval(deleteNotif)

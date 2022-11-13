@@ -27,7 +27,7 @@ const navLists = [
 
 <template>
   <nav
-    class="fixed bottom-0 left-0 w-full lg:border-r-[3px] lg:border-r-slate-900 lg:max-w-[20vw] lg:top-0 bg-orange-400 dark:bg-slate-800 dark:border-r-slate-200/20"
+    class="print:hidden fixed bottom-0 left-0 w-full lg:border-r-[3px] lg:border-r-slate-900 lg:max-w-[20vw] lg:top-0 bg-orange-400 dark:bg-slate-800 dark:border-r-slate-200/20"
   >
     <ul class="flex items-center justify-center lg:flex-col">
       <li

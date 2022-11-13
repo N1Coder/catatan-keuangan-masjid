@@ -18,7 +18,7 @@ import LoadingInfoReportDetail from "../components/loading/LoadingInfoReportDeta
     </Suspense>
 
     <RouterLink
-      class="flex items-center w-fit mt-8 button-primary"
+      class="print:hidden flex items-center w-fit mt-8 button-primary"
       :to="{ name: 'report' }"
     >
       <Icon icon="ic:baseline-arrow-back-ios-new" />
