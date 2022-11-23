@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply box-border font-poppins;
+}
+
+#app {
+  @apply relative min-h-screen overflow-x-hidden bg-[#fff0e1] bg-gradient-to-tl from-[#fff0e1] to-amber-100 dark:from-slate-900 dark:to-slate-900 p-14 pb-24 px-4 sm:px-12 md:px-14;
+}
+
+.shadow-sharp-sm {
+  box-shadow: 0.1em 0.1em 0 rgba(0, 0, 0, 1);
+}
+
+.shadow-sharp {
+  box-shadow: 0.25em 0.25em 0 rgba(0, 0, 0, 1);
+}
+
+.shadow-sharp-lg {
+  box-shadow: 0.5em 0.5em 0 rgba(0, 0, 0, 1);
+}
+
+.p-dekstop {
+  @apply lg:pl-[18vw] lg:pr-[10vw];
+}
+
+.button-primary {
+  @apply shadow-sharp transition-all capitalize py-2 px-4 bg-orange-400 border-2 border-slate-900 text-slate-900 font-medium hover:bg-orange-500 hover:shadow-none focus-within:bg-orange-500 focus-within:shadow-none dark:bg-slate-800 dark:text-slate-200 dark:border-black dark:hover:bg-slate-700 dark:focus-within:bg-slate-700;
+}
+
+.button-action-edit {
+  @apply shadow-sharp-sm transition-all capitalize p-1.5 rounded bg-amber-400 border-2 border-slate-900 text-slate-900 font-medium hover:bg-amber-500 hover:shadow-none focus-within:bg-amber-500 focus-within:shadow-none text-xl ml-auto;
+}
+
+.button-action-delete {
+  @apply shadow-sharp-sm transition-all capitalize p-1.5 rounded bg-rose-500 border-2 border-slate-900 text-slate-900 font-medium hover:bg-rose-600 hover:shadow-none focus-within:bg-rose-600 focus-within:shadow-none text-xl ml-1;
+}
+
+.input-primary {
+  @apply w-full mt-1 border-2 rounded-sm outline-none focus-within:ring-1 bg-orange-50 focus-within:bg-orange-100 focus-within:ring-orange-600 border-orange-500 text-slate-900 py-2 pl-3 pr-4 dark:bg-slate-800 dark:focus:bg-slate-700 dark:placeholder:text-slate-300/50 dark:border-slate-500 dark:focus-within:ring-slate-600 dark:text-slate-200;
+}
+
+.toast-notif {
+  @apply flex items-center justify-start rounded-sm p-3 py-2 gap-2 bg-white border-2 border-black pointer-events-auto dark:bg-slate-800 dark:text-slate-200;
+}
+
+.close-btn-notif {
+  @apply text-3xl rounded text-slate-500 hover:text-slate-600 active:text-slate-600 hover:bg-slate-200 active:bg-slate-200 transition-all cursor-pointer;
+}
+
+.notif-enter-active,
+.notif-move,
+.notif-leave-active {
+  transition: 0.5s all ease-in-out;
+}
+
+.notif-enter-from,
+.notif-leave-to {
+  transform: translateY(-100px);
+  opacity: 0;
+}
+
+.notif-leave-active {
+  width: 100%;
+  position: absolute;
+}
+
+.list-enter-active,
+.list-move,
+.list-leave-active {
+  transition: 0.75s all ease-in-out;
+}
+
+.list-enter-from,
+.list-leave-to {
+  transform: translateX(250%);
+  opacity: 0;
+}
+
+.list-leave-active {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .list-enter-from,
+  .list-leave-to {
+    transform: translateX(0);
+    width: 466px;
+    opacity: 0;
+  }
+}
+
+.bg-enter-active,
+.bg-move,
+.bg-leave-active {
+  transition: 0.75s all ease-in-out;
+}
+
+.bg-enter-from {
+  opacity: 0;
+}
+
+.bg-enter-to {
+  opacity: 1;
+}
+
+.bg-leave-from {
+  opacity: 1;
+}
+
+.bg-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active,
+.modal-move,
+.modal-leave-active {
+  transition: 0.15s all ease-in-out;
+}
+
+.modal-enter-from {
+  opacity: 0;
+}
+
+.modal-enter-to {
+  opacity: 1;
+}
+
+.modal-leave-from {
+  opacity: 1;
+}
+
+.modal-leave-to {
+  opacity: 0;
+}
